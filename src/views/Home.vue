@@ -1,9 +1,13 @@
 <template>
-  <div class="content">
+  <div class="layout">
     <el-container>
-      <el-header> <Nav/></el-header>
-      <el-main> <router-view/></el-main>
-      <el-footer>91算法 官网</el-footer>
+      <el-header>
+        <Nav/>
+      </el-header>
+      <el-main class="content">
+        <router-view/>
+      </el-main>
+      <el-footer>一个努力做西湖区最好的算法题解的团队</el-footer>
     </el-container>
 
   </div>
@@ -21,9 +25,14 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.content{
-  width: 80%;
-  text-align: center;
-  margin:auto;
-}
+  .layout {
+    width: 80%;
+    text-align: center;
+    margin: auto;
+    justify-content: center;
+
+    .content {
+      min-height: 85vh;
+    }
+  }
 </style>

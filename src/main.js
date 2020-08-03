@@ -6,6 +6,9 @@ import store from './store'
 import ElementUI from 'element-ui'
 // import { Button, Select, Navmenu } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import Pagination from '@/components/Pagination/index.vue'
+// 全局组件挂载
+Vue.component('Pagination', Pagination)
 Vue.use(ElementUI)
 Vue.config.productionTip = false
 

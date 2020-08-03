@@ -19,7 +19,12 @@ const routes = [
       {
         path: '/basic',
         name: 'Basic',
-        component: () => import(/* webpackChunkName: "about" */ '../views/Basic.vue')
+        component: () => import(/* webpackChunkName: "BasicList" */ '../views/basic/BasicList.vue')
+      },
+      {
+        path: '/basicDetail',
+        name: 'BasicDetail',
+        component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/basic/BasicDetail.vue')
       }
     ]
   }
