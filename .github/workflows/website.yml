@@ -1,0 +1,54 @@
+# This is a basic workflow to help you get started with Actions
+
+name: website
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+    - name: lint
+      run: |
+        npm install
+        npm run lint
+      env:
+        CI: true
+  
+  test: 
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+    - name: install, test
+      run: |
+        npm install
+        npm run test:unit
+      env:
+        CI: true
+     
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+    - name: npm install, build
+      run: |
+        npm install
+        npm run build
+      env:
+        CI: true
