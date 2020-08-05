@@ -1,6 +1,6 @@
 export default {
     mongodb: {
-        uri: 'mongodb://127.0.0.1:27017/my-data-base',
+        uri: 'localhost:27017/website',
         options: {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -14,4 +14,5 @@ export default {
     },
     // Log Type
     // morgan: 'tiny' 
+    tokenSecret: 'learn91'
 };
