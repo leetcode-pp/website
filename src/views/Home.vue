@@ -2,37 +2,36 @@
   <div class="layout">
     <el-container>
       <el-header>
-        <Nav/>
+        <Nav />
       </el-header>
       <el-main class="content">
-        <router-view/>
+        <router-view />
       </el-main>
       <el-footer>一个努力做西湖区最好的算法题解的团队</el-footer>
     </el-container>
-
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import Nav from '@/components/Nav.vue'
+import Nav from "@/components/Nav.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     Nav
   }
-}
+};
 </script>
 <style lang="less" scoped>
-  .layout {
-    width: 80%;
-    text-align: center;
-    margin: auto;
-    justify-content: center;
+.layout {
+  width: 80%;
+  text-align: center;
+  margin: auto;
+  justify-content: center;
 
-    .content {
-      min-height: 85vh;
-    }
+  .content {
+    min-height: 85vh;
   }
+}
 </style>
