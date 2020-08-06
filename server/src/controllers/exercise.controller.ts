@@ -14,9 +14,10 @@ const createExercise = async (ctx, next) => {
         let curDate = new Date();
         var exercise = {
             title: ctx.request.body.title,
-            authorid: _id,
+            userId: _id,
             content: ctx.request.body.content,
-            createAt: dateFormat(curDate, 'yyyy-MM-dd hh:mm:ss'),
+            createAt: dateFormat(curDate, 'yyyy-MM-dd'),
+            updateAt: dateFormat(curDate, 'yyyy-MM-dd'),
             like_num: 0,
             isOfficial: isOfficial,
             isSelected: false
@@ -33,4 +34,50 @@ const createExercise = async (ctx, next) => {
     
 }
 
-export {createExercise};
+const findMyExercise = async (ctx, next) => {
+    try {
+        let _id = ctx.userId;
+        let date = ctx.query.date;
+        let reg = new RegExp(date, 'i');
+        let myExercise = await Exercises.findOne({_id: _id, createAt: {$regex: reg}});
+        ctx.response.body = (myExercise).toJSON();
+
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+const findOfficialExercises = async (ctx, next) => {
+    try {
+        let date = ctx.query.date;
+        let reg = new RegExp(date, 'i');
+        let officialExercises = await Exercises.find({isOfficial:true, createAt: {$regex: reg}});
+        ctx.response.body = JSON.stringify(officialExercises);
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+const findSelectedExercises = async (ctx, next) => {
+    try {
+        let date = ctx.query.date;
+        let reg = new RegExp(date, 'i');
+        let selectedExercises = await Exercises.find({isSelected:true, createAt: {$regex: reg}});
+        ctx.response.body = JSON.stringify(selectedExercises);
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+const is = async (ctx, next) => {
+    try {
+        let date = ctx.query.date;
+        let reg = new RegExp(date, 'i');
+        let officialExercise = await Exercises.findOne({isSelected:true, createAt: {$regex: reg}});
+        ctx.response.body = (officialExercise).toJSON();
+    } catch(err) {
+        console.log(err);
+    }
+}
+
+export {createExercise, findMyExercise, findOfficialExercises, findSelectedExercises};

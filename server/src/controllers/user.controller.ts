@@ -50,7 +50,7 @@ const userSignin = async (ctx, next) => {
 };
 
 const verifyLogin = async (ctx, next) => {
-    let token = ctx.request.query.token || ctx.request.body.token || ctx.request.body.fields.token || ctx.request.get('authorization');
+    let token = ctx.request.headers['authorization']|| ctx.request.query.token || ctx.request.body.token || ctx.request.body.fields.token || ctx.request.get('authorization');
   
     const returnNotLogin = () => {
       ctx.response.body = {

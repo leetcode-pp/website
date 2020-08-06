@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const exerciseSchema = new Schema({
   userId: {
-    type: String
+    type: Number
   },
   title: {
     type : String,
