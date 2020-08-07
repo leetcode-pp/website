@@ -48,8 +48,6 @@ export default {
   },
   methods: {
     handleClick(row) {
-      console.log(312312);
-
       this.$router.push({
         path: "basicDetail",
         query: {
