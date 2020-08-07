@@ -28,13 +28,12 @@
 <script>
 import solutionData from "./solutionData";
 
-const WAREHOURSE_ADDRESS =
-  "https://api.github.com/repos/azl397985856/leetcode/contents";
+const ADDRESS = "https://api.github.com/repos/azl397985856/leetcode/contents";
 export default {
   name: "BasicList",
   data() {
     return {
-      solutionData: solutionData,
+      solutionData,
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -51,7 +50,7 @@ export default {
       this.$router.push({
         path: "basicDetail",
         query: {
-          url: WAREHOURSE_ADDRESS + row.url
+          url: ADDRESS + row.url
         }
       });
     }
