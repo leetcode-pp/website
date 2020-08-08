@@ -13,7 +13,14 @@ module.exports = {
   rules: {
     "no-console": "warn",
     "no-debugger": "warn",
-    "no-magic-numbers": "error"
+    "no-magic-numbers": [
+      "error",
+      {
+        detectObjects: true,
+        ignoreArrayIndexes: true,
+        enforceConst: true
+      }
+    ]
 
     // "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     // "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off"
