@@ -1,25 +1,21 @@
 <template>
   <div>
     <template>
-      <el-table
-        :data="solutionData"
-        @row-click="handleClick"
-        style="width: 100%">
-        <el-table-column
-          prop="title"
-          label="题目">
+      <el-table :data="solutionData"
+                @row-click="handleClick"
+                style="width: 100%">
+        <el-table-column prop="title"
+                         label="题目">
           <template slot-scope="scope">
             <span :class="['title', { 'icon-new': scope.row.isNew }]">{{scope.row.title}}</span>
           </template>
         </el-table-column>
       </el-table>
-      <pagination
-        v-show="total>0"
-        :total="total"
-        :page.sync="queryParams.pageNum"
-        :limit.sync="queryParams.pageSize"
-        @pagination="getComList"
-      />
+      <pagination v-show="total>0"
+                  :total="total"
+                  :page.sync="queryParams.pageNum"
+                  :limit.sync="queryParams.pageSize"
+                  @pagination="getComList" />
     </template>
   </div>
 </template>
@@ -27,7 +23,7 @@
 <script>
 import solutionData from './solutionData'
 
-const WAREHOURSE_ADDRESS = 'https://api.github.com/repos/azl397985856/leetcode/contents'
+const WAREHOURSE_REPO_URL = 'https://api.github.com/repos/azl397985856/leetcode/contents'
 export default {
   name: 'BasicList',
   data () {
@@ -51,7 +47,7 @@ export default {
       this.$router.push({
         path: 'basicDetail',
         query: {
-          url: WAREHOURSE_ADDRESS + row.url
+          url: WAREHOURSE_REPO_URL + row.url
         }
       })
     }
@@ -60,14 +56,14 @@ export default {
 </script>
 
 <style scoped>
-.title{
+.title {
   color: #3a8ee6;
 }
 .icon-new {
   position: relative;
 }
 .icon-new::after {
-  content: 'new';
+  content: "new";
   position: absolute;
   top: -10px;
   right: -24px;
@@ -75,7 +71,7 @@ export default {
   font-weight: bold;
   color: red;
 }
- /deep/ .el-table td{
-    padding: 8px 0;
-  }
+.el-table td {
+  padding: 8px 0;
+}
 </style>
