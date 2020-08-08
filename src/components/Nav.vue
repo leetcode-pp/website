@@ -8,9 +8,8 @@
              background-color="#545c64"
              text-color="#fff"
              active-text-color="#ffd04b">
-      <el-menu-item index="1" to="/basic">
-        <router-link to="/basic"
-                     style="width:100%;height: 100%">基础篇</router-link>
+      <el-menu-item index="1">
+        <router-link to="/basic">基础篇</router-link>
       </el-menu-item>
       <el-menu-item index="2">
         <router-link to="/about">进阶篇</router-link>
