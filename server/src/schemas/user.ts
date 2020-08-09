@@ -22,8 +22,8 @@ const UserSchema = new Schema({
     type : String,
     default : Date.now()
   }
-}, {collection: 'users'})
+}, {collection: 'user'})
 
-const User = mongoose.model('User', UserSchema, 'users');
+const User = mongoose.model('User', UserSchema, 'user');
 
 export default User;

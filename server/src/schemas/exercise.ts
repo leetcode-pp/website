@@ -36,11 +36,11 @@ const exerciseSchema = new Schema({
     type: Boolean,
     default: false
   },
-  exerciseId: {
-    type: String
+  subjectId: {
+    type: Number
   }
-}, {collection: 'exercises'})
+}, {collection: 'exercise'})
 
-const Exercises = mongoose.model('Exercises', exerciseSchema, 'exercises');
+const Exercises = mongoose.model('Exercises', exerciseSchema, 'exercise');
 
 export default Exercises;
