@@ -27,7 +27,7 @@
           {name: '/basic', navItem: '基础篇'},
           {name: '/about', navItem: '进阶篇'},
           {name: '/topic', navItem: '专题篇'},
-          {name: '/clock', navItem: '打t卡'},
+          {name: '/clock', navItem: '打卡'},
           {name: '/rankings', navItem: '排行榜'},
         ]
       }
