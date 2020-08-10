@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Rankings from '../views/Rankings/Rankings.vue'
 
 Vue.use(VueRouter)
 
@@ -25,7 +26,12 @@ const routes = [
         path: '/basicDetail',
         name: 'BasicDetail',
         component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/basic/BasicDetail.vue')
-      }
+      },
+      {
+        path: '/Rankings',
+        name: 'Rankings',
+        component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/Rankings/Rankings.vue')
+      },
     ]
   }
 
