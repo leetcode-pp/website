@@ -15,63 +15,64 @@
                   :total="total"
                   :page.sync="queryParams.pageNum"
                   :limit.sync="queryParams.pageSize"
-                  @pagination="getComList" />
+                  @pagination="getComList"/>
     </template>
   </div>
 </template>
 
 <script>
-import solutionData from './solutionData'
+  import solutionData from './solutionData'
 
-const WAREHOURSE_REPO_URL = 'https://api.github.com/repos/azl397985856/leetcode/contents'
-export default {
-  name: 'BasicList',
-  data () {
-    return {
-      solutionData: solutionData,
-      // 查询参数
-      queryParams: {
-        pageNum: 1,
-        pageSize: 20
-      },
-      total: 0
-    }
-  },
-  created () {
-    this.total = this.solutionData.length
-  },
-  methods: {
-    handleClick (row) {
-      console.log(312312)
-
-      this.$router.push({
-        path: 'basicDetail',
-        query: {
-          url: WAREHOURSE_REPO_URL + row.url
-        }
-      })
+  const REPO_URL = 'https://api.github.com/repos/azl397985856/leetcode/contents'
+  export default {
+    name: 'BasicList',
+    data() {
+      return {
+        solutionData: solutionData,
+        // 查询参数
+        queryParams: {
+          pageNum: 1,
+          pageSize: 20
+        },
+        total: 0
+      }
+    },
+    created() {
+      this.total = this.solutionData.length
+    },
+    methods: {
+      handleClick(row) {
+        this.$router.push({
+          path: 'basicDetail',
+          query: {
+            url: REPO_URL + row.url
+          }
+        })
+      }
     }
   }
-}
 </script>
 
 <style scoped>
-.title {
-  color: #3a8ee6;
-}
-.icon-new {
-  position: relative;
-}
-.icon-new::after {
-  content: "new";
-  position: absolute;
-  top: -10px;
-  right: -24px;
-  font-size: 12px;
-  font-weight: bold;
-  color: red;
-}
-.el-table td {
-  padding: 8px 0;
-}
+  .title {
+    color: #3a8ee6;
+  }
+
+  .icon-new {
+    position: relative;
+  }
+
+  .icon-new::after {
+    content: "new";
+    position: absolute;
+    top: -10px;
+    right: -24px;
+    font-size: 12px;
+    font-weight: bold;
+    color: red;
+  }
+
+  .el-table td {
+    padding: 8px 0;
+  }
 </style>
