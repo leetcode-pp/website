@@ -3,7 +3,7 @@ import koarouter from 'koa-router';
 const router = new koarouter();
 import {signin, verifyLogin} from '../controllers/user.controller';
 import {createExercise, findMyExercise, findOfficialExercises, findSelectedExercises,
-    findAllExercisesDuringPeriod, setSelectedExercise, findChecksInMonth} from '../controllers/exercise.controller';
+    findAllExercisesDuringPeriod, setSelectedExercise, findChecksDuringPeriod} from '../controllers/exercise.controller';
 
 //用户注册 - 手动添加用户
 // router.post('/api/userSignup', userControl.userSignup)
@@ -28,5 +28,5 @@ router.get('/api/selectedExercises/bydate', verifyLogin, findSelectedExercises);
 router.get('/api/allExercises/period', verifyLogin, findAllExercisesDuringPeriod);
 router.get('/api/addSelected', verifyLogin, setSelectedExercise);
 
-router.get('/api/checks/period', verifyLogin,findChecksInMonth);
+router.get('/api/checks/period', verifyLogin,findChecksDuringPeriod);
 export default router;

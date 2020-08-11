@@ -19,8 +19,8 @@ const createExercise = async (ctx, next) => {
             title: ctx.request.body.title,
             userId: _id,
             content: ctx.request.body.content,
-            createAt: new Date(),
-            updateAt: dateFormat(curDate, 'yyyy-MM-dd'),
+            createAt: curDate,
+            updateAt: curDate,
             like_num: 0,
             isOfficial: isOfficial,
             isSelected: false
@@ -98,7 +98,7 @@ const findAllExercisesDuringPeriod = async (ctx, next) => {
             {
                 $lookup: {
                     from: "subject",
-                    localField: "exerciseId",
+                    localField: "subjectId",
                     foreignField: "_id",
                     as: "subject"
                 },
@@ -121,34 +121,52 @@ const setSelectedExercise = async (ctx, next) => {
     };
 }
 
-const findChecksInMonth = async (ctx, next) => {
+
+// 补签算在签到中
+// const findChecksInMonth = async (ctx, next) => {
+//     let userId = ctx.userId;
+//     let from = ctx.query.from;
+//     let to = ctx.query.to;
+//     from = new Date(from);
+//     to = new Date(to);
+//     let results = [];
+//     let checks = await Subject.aggregate([
+//         {
+//             $lookup: {
+//                 from: "exercise",
+//                 localField: "_id",
+//                 foreignField: "subjectId",
+//                 as: "exercise"
+//             }
+//         },
+//         {
+//             $match: {
+//                 date: {$gte: from, $lte: to},
+//                 "exercise.userId": userId
+//             }
+//         }
+//     ]);
+//     checks.forEach(elm => {
+//         results.push({date: elm.date, check: elm.exercise? 1:0});
+//     });
+//     ctx.response.body = results;
+// }
+
+
+// 补签不算在签到中
+const findChecksDuringPeriod = async (ctx, next) => {
     let userId = ctx.userId;
     let from = ctx.query.from;
     let to = ctx.query.to;
     from = new Date(from);
     to = new Date(to);
     let results = [];
-    let checks = await Subject.aggregate([
-        {
-            $lookup: {
-                from: "exercise",
-                localField: "_id",
-                foreignField: "subjectId",
-                as: "exercise"
-            }
-        },
-        {
-            $match: {
-                date: {$gte: from, $lte: to},
-                "exercise.userId": userId
-            }
-        }
-    ]);
-    checks.forEach(elm => {
-        results.push({date: elm.date, check: elm.exercise? 1:0});
+    let checks = await Exercises.find({createAt: {$gte: from, $lte: to}, userId: userId});
+    checks.forEach((elm: any) => {
+        results.push({date: dateFormat(elm.createAt, "yyyy-mm-dd"), check: elm.exercise? 1:0});
     });
     ctx.response.body = results;
 }
 
 export {createExercise, findMyExercise, findOfficialExercises, findSelectedExercises, findAllExercises,
-    findAllExercisesDuringPeriod, setSelectedExercise, findChecksInMonth};
+    findAllExercisesDuringPeriod, setSelectedExercise, findChecksDuringPeriod};
