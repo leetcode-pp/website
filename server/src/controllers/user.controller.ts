@@ -2,7 +2,7 @@ import User from '../schemas/user';
 import jwt from 'jsonwebtoken';
 import config  from '../config';
 
-const userSignin = async (ctx, next) => {
+const signin = async (ctx, next) => {
     let body = ctx.request.body;
     let name = body.name;
     let password = body.password;
@@ -77,4 +77,4 @@ function validate(loginPassword, actualPassword): boolean {
     return loginPassword === actualPassword;
 }
 
-export {userSignin, verifyLogin};
+export {signin, verifyLogin};

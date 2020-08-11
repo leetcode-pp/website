@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   _id: {
-    type: Number,
+    type: Number
   },
   password: {
     type: String,
@@ -12,7 +12,8 @@ const UserSchema = new Schema({
   },
   name: {
     type: String,
-    default: ''
+    default: '',
+    unique: true
   },
   isAdmin: {
     type: Number,

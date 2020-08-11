@@ -1,5 +1,6 @@
 import mongoose from '../db';
 const Schema = mongoose.Schema;
+import uuid from 'node-uuid';
 
 const subjectSchema = new Schema({
   title:{
@@ -17,7 +18,8 @@ const subjectSchema = new Schema({
     type : String,
   },
   _id: {
-    type: Number
+    type: String,
+    default: uuid.v1
   },
   date: {
     type: Date

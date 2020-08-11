@@ -23,10 +23,10 @@ const exerciseSchema = new Schema({
     default : 0
   },
   createAt: {
-    type : String,
+    type : Date,
   },
   updateAt: {
-    type : String,
+    type : Date,
   },
   isSelected: {
     type: Boolean,
@@ -37,7 +37,7 @@ const exerciseSchema = new Schema({
     default: false
   },
   subjectId: {
-    type: Number
+    type: String
   }
 }, {collection: 'exercise'})
 

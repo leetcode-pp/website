@@ -1,7 +1,7 @@
 
 import koarouter from 'koa-router';
 const router = new koarouter();
-import {userSignin, verifyLogin} from '../controllers/user.controller';
+import {signin, verifyLogin} from '../controllers/user.controller';
 import {createExercise, findMyExercise, findOfficialExercises, findSelectedExercises,
     findAllExercisesDuringPeriod, setSelectedExercise, findChecksInMonth} from '../controllers/exercise.controller';
 
@@ -9,7 +9,7 @@ import {createExercise, findMyExercise, findOfficialExercises, findSelectedExerc
 // router.post('/api/userSignup', userControl.userSignup)
 
 //用户登录
-router.post('/api/userSignin', userSignin)
+router.post('/api/userSignin', signin)
 //用户退出登录
 // router.post('/api/userSignout', userControl.userSignout)
 

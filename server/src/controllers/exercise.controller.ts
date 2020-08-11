@@ -19,7 +19,7 @@ const createExercise = async (ctx, next) => {
             title: ctx.request.body.title,
             userId: _id,
             content: ctx.request.body.content,
-            createAt: dateFormat(curDate, 'yyyy-MM-dd'),
+            createAt: new Date(),
             updateAt: dateFormat(curDate, 'yyyy-MM-dd'),
             like_num: 0,
             isOfficial: isOfficial,
