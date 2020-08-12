@@ -1,4 +1,4 @@
-name: website
+name: deploy
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - dev
       - main
 jobs:
-  build:
+  build_deploy:
 
     runs-on: ubuntu-latest
 
@@ -22,8 +22,6 @@ jobs:
         npm run build
       env:
         CI: true
-  deploy: 
-    runs-on: ubuntu-latest
-    steps:
+
     - name: gh-pages for Github Action
       uses: axetroy/gh-pages-action@0.0.21
