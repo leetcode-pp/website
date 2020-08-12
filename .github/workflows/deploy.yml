@@ -24,4 +24,4 @@ jobs:
         CI: true
 
     - name: gh-pages for Github Action
-      uses: axetroy/gh-pages-action@0.0.21
+      uses: Cecilapp/GitHub-Pages-deploy@2.0.1
