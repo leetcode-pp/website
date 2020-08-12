@@ -1,10 +1,10 @@
 name: website
 
 on:
-  push:
+  pull_request:
     branches: 
-      - main
       - dev
+      - main
 jobs:
   build:
 
