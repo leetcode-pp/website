@@ -37,7 +37,7 @@ const exerciseSchema = new Schema({
     default: false
   },
   subjectId: {
-    type: String
+    type: Number
   }
 }, {collection: 'exercise'})
 
