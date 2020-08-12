@@ -22,8 +22,8 @@ jobs:
         npm run build
       env:
         CI: true
-  deploy: 
-    runs-on: ubuntu-latest
-    steps:
-    - name: gh-pages for Github Action
+
+    - name: gh-pages deploy
       uses: axetroy/gh-pages-action@0.0.21
+      with: 
+        publish_dir: ./public
