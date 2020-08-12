@@ -1,0 +1,29 @@
+name: website
+
+on:
+  push:
+    branches: 
+      - main
+      - dev
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js 10.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.x
+    - name: npm install, build
+      run: |
+        npm install
+        npm run build
+      env:
+        CI: true
+  deploy: 
+    runs-on: ubuntu-latest
+    steps:
+    - name: gh-pages for Github Action
+      uses: axetroy/gh-pages-action@0.0.21
