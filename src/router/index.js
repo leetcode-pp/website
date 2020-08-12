@@ -25,6 +25,11 @@ const routes = [
         path: '/basicDetail',
         name: 'BasicDetail',
         component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/basic/BasicDetail.vue')
+      },
+      {
+        path: '/clock',
+        name: 'Clock',
+        component: () => import(/* webpackChunkName: "Clock" */ '../views/Clock.vue')
       }
     ]
   }
@@ -32,6 +37,7 @@ const routes = [
 ]
 
 const router = new VueRouter({
+  mode: "history",
   routes
 })
 
