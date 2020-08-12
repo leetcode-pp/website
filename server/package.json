@@ -5,13 +5,15 @@
     "start": "tsc --build && node ./dist/app.js",
     "watch": "tsc --watch",
     "build": "tsc --build",
-    "build:prod": "npm run build && rimraf  ./dist/public && mkdir .\\dist\\public && copy ..\\public .\\dist\\public"
+    "build:prod": "npm run build && rimraf  ./dist/public && mkdir .\\dist\\public && copy ..\\public .\\dist\\public",
+    "start:prod": "cross-env NODE_ENV=production pm2 start pm2.json"
   },
   "author": "pqi",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
+    "cross-env": "^7.0.2",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.11.0",
     "koa-body": "^4.2.0",

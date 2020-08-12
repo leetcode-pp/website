@@ -1,6 +1,6 @@
 export default {
     mongodb: {
-        uri: 'localhost:27017/website',
+        uri: `mongodb+srv://admin91:91websiteisthebest@cluster0.dyykr.mongodb.net/website?retryWrites=true&w=majority`,
         options: {
             useNewUrlParser: true,
             useUnifiedTopology: true,
@@ -14,5 +14,7 @@ export default {
     },
     // Log Type
     // morgan: 'tiny' 
-    tokenSecret: 'learn91'
+    tokenSecret: 'learn91',
+    password: '91websiteisthebest',
+    user: 'admin91'
 };

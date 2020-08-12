@@ -9,7 +9,7 @@ const options = {
     useNewUrlParser: true
 };
 
-mongoose.connect(`mongodb://${config.mongodb.uri}`,options);
+mongoose.connect(`${config.mongodb.uri}`,options);
 
 mongoose.connection.on('connected', function(s) {
   console.log('连接数据库成功');

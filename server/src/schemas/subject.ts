@@ -1,7 +1,6 @@
 import mongoose from '../db';
 const Schema = mongoose.Schema;
 
-
 const subjectSchema = new Schema({
   title:{
     type : String,
