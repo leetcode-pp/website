@@ -9,7 +9,7 @@ import {createExercise, findMyExercise, findOfficialExercises, findSelectedExerc
 
 //用户登录
 router.post('/api/userSignin', signin);
-router.get('/api/ranks', rank);
+router.get('/api/ranks', verifyLogin, rank);
 //用户退出登录
 // router.post('/api/userSignout', userControl.userSignout)
 
@@ -17,14 +17,14 @@ router.get('/api/ranks', rank);
  * 题解模块
  */
 
-//保存文章
+//保存题解
 router.post('/api/saveExercise', verifyLogin, createExercise);
 
 //获取我的题解
 router.get('/api/myExercise/bydate', verifyLogin, findMyExercise);
 router.get('/api/officialExercises/bydate', verifyLogin, findOfficialExercises);
 router.get('/api/selectedExercises/bydate', verifyLogin, findSelectedExercises);
-router.get('/api/allExercises/bydate', findAllExercises);
+router.get('/api/allExercises/bydate', verifyLogin, findAllExercises);
 
 router.get('/api/allExercises/period', verifyLogin, findAllExercisesDuringPeriod);
 router.get('/api/addSelected', verifyLogin, setSelectedExercise);

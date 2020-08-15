@@ -101,9 +101,24 @@ const findAllExercisesDuringPeriod = async (ctx, next) => {
                     localField: "subjectId",
                     foreignField: "_id",
                     as: "subject"
-                },
+                }
+            },
+            {
                 $match: {
                     "subject.date":{$gte:from, $lte: to}
+                }
+            }, 
+            {
+                $project: {
+                    "_id": 1,
+                    "title": 1,
+                    "content": 1,
+                    "likes": 1,
+                    "isSelected": 1,
+                    "isOfficial": 1,
+                    "createAt": 1,
+                    "userId": 1,
+                    "subjectId": 1,
                 }
             }
         ]);
