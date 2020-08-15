@@ -16,7 +16,7 @@
     </div>
     <div class="clock-calendar">
       <el-row type="flex" class="clock-row" justify="space-around" align="middle">
-        <el-col v-for="item in header.cn" :key="item">{{item}}</el-col>
+        <el-col v-for="item in header.en" :key="item">{{item}}</el-col>
       </el-row>
       <el-row
         type="flex"
@@ -27,15 +27,22 @@
         :key="index"
       >
         <el-col v-for="item in column" :key="item.key" align="center">
-          <div
-            :class="[
-                'clock-td',
-                {
-                  'clock-td-red': item.value && item.value.format('YYYYMMDD') === clickMoment.format('YYYYMMDD')
-                }
-              ]"
-            @click="handleClickMoment"
-          >{{item.value && item.value.get('date')}}</div>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            :content="`${item.value && item.value.format('YYYYMMDD')}的每日一题`"
+            placement="top"
+            :disabled="defaultMoment.isBefore(item.value)"
+          >
+            <el-button
+              v-if="item.value"
+              circle
+              class="circle"
+              :type="type[item.state]"
+              :icon="icon[item.state]"
+              @click="() => handleClickMoment(item)"
+            >{{!item.value.isBefore(defaultMoment) ? item.value.get('date') : ''}}</el-button>
+          </el-tooltip>
         </el-col>
       </el-row>
     </div>
@@ -44,7 +51,7 @@
 
 <script>
 import moment from "moment";
-const nowMoment = moment();
+const nowMoment = moment().startOf("day");
 
 export default {
   name: "Clock",
@@ -61,6 +68,8 @@ export default {
         cn: ["日", "一", "二", "三", "四", "五", "六"],
         en: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
       },
+      type: ["danger", "success", "primary"], // 打卡失败，打卡成功，今天未打卡
+      icon: ["el-icon-close", "el-icon-check"],
       // 当前显示的日期
       nowMoment,
       // 当前点击的日期
@@ -123,11 +132,22 @@ export default {
         const itemMoment = moment(momentValue).add(i - key, "days");
         data[i] = {
           key: i,
+          state: 3,
         };
         if (!this.showOtherMonth && nowMonth !== itemMoment.get("month")) {
           continue;
         }
-        data[i].value = itemMoment.weekday(i);
+        data[i].value = itemMoment.weekday(i).startOf("day");
+        data[i].state = data[i].value.isBefore(this.defaultMoment)
+          ? 0
+          : data[i].state; //TODO: 待和接口匹配
+        if (
+          data[i].value.unix() === this.defaultMoment.unix() &&
+          data[i].state === 3
+        ) {
+          data[i].state = 2;
+          console.log("now");
+        }
       }
       return data;
     },
@@ -138,19 +158,25 @@ export default {
     },
     // 下月
     handleNext() {
+      if (
+        this.nowMoment.get("year") === this.defaultMoment.get("year") &&
+        this.nowMoment.get("month") >= this.defaultMoment.get("month")
+      )
+        return;
       this.nowMoment = moment(this.nowMoment).add(1, "month");
       this.$emit("handleNext");
     },
     // 点击日期
-    handleClickMoment() {
-      this.$emit('handleClick')
-    }
+    handleClickMoment(item) {
+      this.$emit("handleClick", { ...item });
+    },
   },
 };
 </script>
 
 <style lang="less" scoped>
 .clock-container {
+  min-width: 350px;
   width: 100%;
   height: 100%;
   display: flex;
@@ -176,22 +202,26 @@ export default {
     flex: 1;
   }
 }
-.clock-td {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+.circle {
+  width: 40px;
+  height: 40px;
 }
-.clock-td-red {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  background: red;
-  color: black;
-  min-width: 25px;
-  min-height: 25px;
-}
+// .clock-td {
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   cursor: pointer;
+// }
+// .clock-td-red {
+//   display: inline-flex;
+//   align-items: center;
+//   justify-content: center;
+//   border-radius: 50%;
+//   background: red;
+//   color: black;
+//   min-width: 25px;
+//   min-height: 25px;
+// }
 .clock-row {
   flex: 1;
 }

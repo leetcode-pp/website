@@ -1,10 +1,29 @@
 <template>
   <div class="clock">
     <div class="calendar">
-      <Calendar showOther="false" @handlePrev="handlePrev" @handleNext="handleNext">
-        <div slot="prev">上个月</div>
-        <div slot="next">下个月</div>
+      <Calendar
+        showOther="false"
+        @handlePrev="handlePrev"
+        @handleNext="handleNext"
+        @handleClick="handleClick"
+      >
+        <div slot="prev" class="clock-prev">
+          <i class="el-icon-caret-left"></i>
+        </div>
+        <div slot="next" class="clock-next">
+          <i class="el-icon-caret-right"></i>
+        </div>
       </Calendar>
+    </div>
+    <div class="CardWrapper">
+      <div class="left">
+        <span>我的补卡券： 0</span>
+        <span class="RedeemButton">兑换</span>
+      </div>
+      <span class="RuleText" @click="handleRule">
+        活动规则
+        <i class="el-icon-arrow-right"></i>
+      </span>
     </div>
   </div>
 </template>
@@ -22,6 +41,10 @@ export default {
   },
   mounted() {},
   methods: {
+    // 活动规则
+    handleRule() {
+      alert("活动规则");
+    },
     // 上月
     handlePrev() {
       console.log("handlePrev");
@@ -30,6 +53,10 @@ export default {
     handleNext() {
       console.log("handleNext");
     },
+    // 点击日期
+    handleClick(item) {
+      console.log("handleClick", item)
+    }
   },
 };
 </script>
@@ -42,6 +69,34 @@ export default {
   .calendar {
     width: 100%;
     height: 500px;
+
+    .clock-prev {
+      margin-left: 8vw;
+      cursor: pointer;
+    }
+    .clock-next {
+      margin-right: 8vw;
+      cursor: pointer;
+    }
+  }
+  .CardWrapper {
+    height: 42px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    margin-top: 8px;
+    background: rgb(236, 240, 241);
+    padding: 0px 12px;
+    border-radius: 5px 5px 10px 10px;
+    .RedeemButton {
+      margin-left: 10px;
+      color: rgb(45, 181, 93);
+      cursor: pointer;
+    }
+    .RuleText {
+      cursor: pointer;
+    }
   }
 }
 </style>

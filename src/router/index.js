@@ -29,6 +29,9 @@ const routes = [
       {
         path: '/clock',
         name: 'Clock',
+        meta: {
+          title: '91官网 - 打卡'
+        },
         component: () => import(/* webpackChunkName: "Clock" */ '../views/Clock.vue')
       }
     ]
@@ -39,6 +42,10 @@ const routes = [
 const router = new VueRouter({
   mode: "history",
   routes
+})
+
+router.afterEach((to, from) => {
+  document.title = to.meta.title || '91website'
 })
 
 export default router
