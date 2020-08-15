@@ -10,9 +10,9 @@ const createExercise = async (ctx, next) => {
         let _id = ctx.userId;
         let user: any = await User.findOne({_id: _id});
         
-        let isOfficial = false;
+        let isOfficial = 0;
         if (user.isAdmin === 1) {
-            isOfficial = true;
+            isOfficial = 1;
         }
         let curDate = new Date();
         var exercise = {
@@ -23,7 +23,7 @@ const createExercise = async (ctx, next) => {
             updateAt: curDate,
             like_num: 0,
             isOfficial: isOfficial,
-            isSelected: false
+            isSelected: 0
         };
         let oneExercise = new Exercises(exercise);
         await oneExercise.save();
@@ -81,7 +81,7 @@ const findAllExercises = async (ctx, next) => {
         let date = ctx.query.date;
         date = new Date(date);
         let subject = await Subject.findOne({date: date});
-        let allExercises = await Exercises.find({isSelected:true, subjectId: subject._id});
+        let allExercises = await Exercises.find({subjectId: subject._id});
         ctx.response.body = JSON.stringify(allExercises);
     } catch(err) {
         console.log(err);
@@ -122,51 +122,82 @@ const setSelectedExercise = async (ctx, next) => {
 }
 
 
-// 补签算在签到中
-// const findChecksInMonth = async (ctx, next) => {
-//     let userId = ctx.userId;
-//     let from = ctx.query.from;
-//     let to = ctx.query.to;
-//     from = new Date(from);
-//     to = new Date(to);
-//     let results = [];
-//     let checks = await Subject.aggregate([
-//         {
-//             $lookup: {
-//                 from: "exercise",
-//                 localField: "_id",
-//                 foreignField: "subjectId",
-//                 as: "exercise"
-//             }
-//         },
-//         {
-//             $match: {
-//                 date: {$gte: from, $lte: to},
-//                 "exercise.userId": userId
-//             }
-//         }
-//     ]);
-//     checks.forEach(elm => {
-//         results.push({date: elm.date, check: elm.exercise? 1:0});
-//     });
-//     ctx.response.body = results;
-// }
-
-
-// 补签不算在签到中
-const findChecksDuringPeriod = async (ctx, next) => {
+//补签不算在签到中
+const findChecksInMonth = async (ctx, next) => {
     let userId = ctx.userId;
     let from = ctx.query.from;
     let to = ctx.query.to;
     from = new Date(from);
     to = new Date(to);
     let results = [];
-    let checks = await Exercises.find({createAt: {$gte: from, $lte: to}, userId: userId});
-    checks.forEach((elm: any) => {
-        results.push({date: dateFormat(elm.createAt, "yyyy-mm-dd"), check: elm.exercise? 1:0});
+    let checks = await Subject.aggregate([
+        {
+            $lookup: {
+                from: "exercise",
+                localField: "_id",
+                foreignField: "subjectId",
+                as: "exercise"
+            }
+        },
+        {
+            $match: {
+                date: {$gte: from, $lte: to},
+                "exercise.userId": userId,
+                "exercise.createAt": {$gte: from, $lte: to}
+            }
+        }
+    ]);
+    checks.forEach(elm => {
+        results.push({date: elm.date, check: elm.exercise? 1:0});
     });
     ctx.response.body = results;
 }
 
+const rank = async (ctx, next) => {
+    let from = ctx.query.from;
+    let to = ctx.query.to;
+    from = new Date(from);
+    to = new Date(to);
+    let results = await Exercises.aggregate([
+      {
+          $lookup: {
+            from: "user",
+            localField: "userId",
+            foreignField: "_id",
+            as: "user"
+          }
+      },
+      {
+          $match: {
+            "createAt": {$gte: from, $lte: to}
+          }
+      },
+      {
+          $group: {
+            _id: '$userId',
+            checks: {$sum: 1},
+            selects: {$sum: "$isSelected"}
+          }
+      },
+        {
+            $addFields:
+              {
+                name : '$user.name'
+              }
+        },
+      {
+          $project: {
+            _id: 1,
+            name: 1,
+            checks: 1,
+            selects: 1
+          }
+      }
+    ]);
+
+    ctx.response.body = JSON.stringify(results);
+
+}
+
 export {createExercise, findMyExercise, findOfficialExercises, findSelectedExercises, findAllExercises,
-    findAllExercisesDuringPeriod, setSelectedExercise, findChecksDuringPeriod};
+    findAllExercisesDuringPeriod, setSelectedExercise, findChecksInMonth, rank};

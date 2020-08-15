@@ -29,12 +29,12 @@ const exerciseSchema = new Schema({
     type : Date,
   },
   isSelected: {
-    type: Boolean,
-    default: false
+    type: Number,
+    default: 0
   },
   isOfficial: {
-    type: Boolean,
-    default: false
+    type: Number,
+    default: 0
   },
   subjectId: {
     type: Number

@@ -20,9 +20,11 @@ const UserSchema = new Schema({
     default: 0
   },
   createAt: {
-    type : String,
-    default : Date.now()
-  }
+    type : Date
+  },
+  updateAt: {
+    type : Date
+  },
 }, {collection: 'user'})
 
 const User = mongoose.model('User', UserSchema, 'user');

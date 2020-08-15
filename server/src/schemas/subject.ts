@@ -11,10 +11,10 @@ const subjectSchema = new Schema({
     default: ''
   },
   createAt: {
-    type : String,
+    type : Date,
   },
   updateAt: {
-    type : String,
+    type : Date,
   },
   _id: {
     type: Number
