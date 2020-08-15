@@ -1,6 +1,6 @@
 import User from '../schemas/user';
 import jwt from 'jsonwebtoken';
-import config  from '../config';
+import config from '../config';
 
 const signin = async (ctx, next) => {
     let body = ctx.request.body;

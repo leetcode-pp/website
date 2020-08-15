@@ -1,15 +1,11 @@
-import config from '../config';
 import mongoose from 'mongoose';
+import config from '../config';
 
 mongoose.Promise = global.Promise;
 
-const options = {
-    auto_reconnect: true,
-    poolSize: 20,
-    useNewUrlParser: true
-};
 
-mongoose.connect(`${config.mongodb.uri}`,options);
+
+mongoose.connect(`${config.mongodb.uri}`,config.options);
 
 mongoose.connection.on('connected', function(s) {
   console.log('连接数据库成功');

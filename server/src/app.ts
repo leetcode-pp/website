@@ -1,4 +1,4 @@
-import config from './config';
+import config from './development.config';
 import errorHandler from './utils/error_handler'
 import Koa from 'koa';
 import koaCors from 'koa2-cors';
