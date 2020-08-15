@@ -33,6 +33,14 @@ const routes = [
           title: '91官网 - 打卡'
         },
         component: () => import(/* webpackChunkName: "Clock" */ '../views/Clock.vue')
+      },
+      {
+        path: '/clock/detail/:id',
+        name: 'ClockDetail',
+        meta: {
+          title: '91官网 - 打卡详情页面'
+        },
+        component: () => import(/* webpackChunkName: "ClockDetail" */ '../views/ClockDetail.vue')
       }
     ]
   }
