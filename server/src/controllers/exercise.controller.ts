@@ -9,7 +9,6 @@ const createExercise = async (ctx, next) => {
     try {
         let userName = ctx.userName;
         let user: any = await User.findOne({name: userName});
-        let userId = user._id.toJSON();
         let isOfficial = 0;
         if (user.isAdmin === 1) {
             isOfficial = 1;
