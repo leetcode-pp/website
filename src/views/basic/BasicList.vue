@@ -15,7 +15,7 @@
                   :total="total"
                   :page.sync="queryParams.pageNum"
                   :limit.sync="queryParams.pageSize"
-                  @pagination="getComList"/>
+                  @pagination=""/>
     </template>
   </div>
 </template>
@@ -43,7 +43,7 @@
     methods: {
       handleClick(row) {
         this.$router.push({
-          path: 'basicDetail',
+          path: 'solutionDetails',
           query: {
             url: REPO_URL + row.url
           }

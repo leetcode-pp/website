@@ -10,7 +10,7 @@ const routes = [
     name: 'Home',
     component: Home,
     children: [
-      { path: '/', redirect: { name: 'Basic' } },
+      {path: '/', redirect: {name: 'Basic'}},
       {
         path: '/about',
         name: 'About',
@@ -22,9 +22,9 @@ const routes = [
         component: () => import(/* webpackChunkName: "BasicList" */ '../views/basic/BasicList.vue')
       },
       {
-        path: '/basicDetail',
-        name: 'BasicDetail',
-        component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/basic/BasicDetail.vue')
+        path: '/solutionDetails',
+        name: 'SolutionDetails',
+        component: () => import(/* webpackChunkName: "SolutionDetails" */ '../components/SolutionDetails.vue')
       }
     ]
   }
