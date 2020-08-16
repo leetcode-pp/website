@@ -29,10 +29,10 @@ const signin = async (ctx, next) => {
         return;
       }
   
-      let userId = user._id;
+      let userName = user.name;
   
       let token = jwt.sign({
-        userId: userId
+        userName: userName
       }, config.tokenSecret, {
         expiresIn: 60 * 600   // 10小时过期
       });
@@ -49,6 +49,36 @@ const signin = async (ctx, next) => {
     }
 };
 
+const signup = async (ctx, next) => {
+  let body = ctx.request.body;
+  let name = body.name;
+  let password = body.password;
+  let userName = ctx.userName;
+  let user: any = await User.findOne({name: userName});
+  if (user.isAdmin > 0) {
+    let user = await User.findOne({name: name});
+      if (user != null || name == undefined) {
+        ctx.response.status = 400;
+        ctx.response.body = {
+          message: `你所输入的名字已存在，请更改用户名`
+        }
+      }
+      else {
+        const newUser = new User({name: name, password: password});
+        await newUser.save();
+        ctx.response.body = {
+          message: '注册成功'
+        }
+      }
+  }
+  else {
+    ctx.response.status = 401;
+    ctx.response.body = {
+      message: '权限不足，请联系管理员'
+    };
+  }
+}
+
 const verifyLogin = async (ctx, next) => {
     let token = ctx.request.headers['authorization']|| ctx.request.query.token || ctx.request.body.token || ctx.request.body.fields.token || ctx.request.get('authorization');
   
@@ -63,7 +93,7 @@ const verifyLogin = async (ctx, next) => {
     try {
       let profile = await jwt.verify(token, config.tokenSecret);
       if (profile !== null) {
-        ctx.userId = profile.userId;
+        ctx.userName = profile.userName;
         await next();
       }
     } catch (err) {
@@ -77,4 +107,4 @@ function validate(loginPassword, actualPassword): boolean {
     return loginPassword === actualPassword;
 }
 
-export {signin, verifyLogin};
+export {signin, verifyLogin, signup};

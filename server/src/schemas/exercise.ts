@@ -2,8 +2,8 @@ import mongoose from '../db';
 const Schema = mongoose.Schema;
 
 const exerciseSchema = new Schema({
-  userId: {
-    type: Number
+  userName: {
+    type: String
   },
   title: {
     type : String,

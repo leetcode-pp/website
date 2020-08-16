@@ -2,28 +2,31 @@ import Exercises from '../schemas/exercise';
 import User from '../schemas/user';
 import Subject from '../schemas/subject';
 import {dateFormat} from '../utils/date';
-import { Mongoose } from 'mongoose';
+import { Mongoose, Schema } from 'mongoose';
 import mongoose from '../db';
 
 const createExercise = async (ctx, next) => {
     try {
-        let _id = ctx.userId;
-        let user: any = await User.findOne({_id: _id});
-        
+        let userName = ctx.userName;
+        let user: any = await User.findOne({name: userName});
+        let userId = user._id.toJSON();
         let isOfficial = 0;
         if (user.isAdmin === 1) {
             isOfficial = 1;
         }
         let curDate = new Date();
+        let date = new Date(ctx.request.body.date);
+        let subject = await Subject.findOne({date: date});
         var exercise = {
             title: ctx.request.body.title,
-            userId: _id,
+            userName: user.name,
             content: ctx.request.body.content,
             createAt: curDate,
             updateAt: curDate,
             like_num: 0,
             isOfficial: isOfficial,
-            isSelected: 0
+            isSelected: 0,
+            subjectId: subject._id
         };
         let oneExercise = new Exercises(exercise);
         await oneExercise.save();
@@ -39,11 +42,11 @@ const createExercise = async (ctx, next) => {
 
 const findMyExercise = async (ctx, next) => {
     try {
-        let userId = ctx.userId;
+        let userName = ctx.userName;
         let date = ctx.query.date;
         date = new Date(date);
         let subject = await Subject.findOne({date: date});
-        let myExercise = await Exercises.findOne({userId: userId, subjectId: subject._id});
+        let myExercise = await Exercises.findOne({userName: userName, subjectId: subject._id});
         ctx.response.body = (myExercise).toJSON();
 
     } catch(err) {
@@ -118,6 +121,7 @@ const findAllExercisesDuringPeriod = async (ctx, next) => {
                     "isOfficial": 1,
                     "createAt": 1,
                     "userId": 1,
+                    "userName": 1,
                     "subjectId": 1,
                 }
             }
@@ -139,7 +143,7 @@ const setSelectedExercise = async (ctx, next) => {
 
 //补签不算在签到中
 const findChecksInMonth = async (ctx, next) => {
-    let userId = ctx.userId;
+    let userName = ctx.userName;
     let from = ctx.query.from;
     let to = ctx.query.to;
     from = new Date(from);
@@ -156,14 +160,22 @@ const findChecksInMonth = async (ctx, next) => {
         },
         {
             $match: {
-                date: {$gte: from, $lte: to},
-                "exercise.userId": userId,
-                "exercise.createAt": {$gte: from, $lte: to}
+                date: { $gte: from, $lte: to },
+                $or: [
+                    {"exercise.userName": userName},
+                    {"exercise": []}
+                ]
             }
         }
     ]);
     checks.forEach(elm => {
-        results.push({date: elm.date, check: elm.exercise? 1:0});
+        let flag = 0;
+        if (elm.exercise.length > 0) {
+            const checkTime = dateFormat(elm.exercise[0].createAt, 'yyyy-MM-dd');
+            const subjectTime = dateFormat(elm.date, 'yyyy-MM-dd');
+            if (checkTime == subjectTime) flag = 1;
+        }
+        results.push({date: elm.date, check: flag});
     });
     ctx.response.body = results;
 }
@@ -177,8 +189,8 @@ const rank = async (ctx, next) => {
       {
           $lookup: {
             from: "user",
-            localField: "userId",
-            foreignField: "_id",
+            localField: "userName",
+            foreignField: "name",
             as: "user"
           }
       },
@@ -189,7 +201,7 @@ const rank = async (ctx, next) => {
       },
       {
           $group: {
-            _id: '$userId',
+            _id: '$userName',
             checks: {$sum: 1},
             selects: {$sum: "$isSelected"}
           }
@@ -197,13 +209,13 @@ const rank = async (ctx, next) => {
         {
             $addFields:
               {
-                name : '$user.name'
+                userName : '$userName'
               }
         },
       {
           $project: {
             _id: 1,
-            name: 1,
+            userName: 1,
             checks: 1,
             selects: 1
           }

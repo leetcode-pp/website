@@ -1,7 +1,7 @@
 
 import koarouter from 'koa-router';
 const router = new koarouter();
-import {signin, verifyLogin} from '../controllers/user.controller';
+import {signin, verifyLogin, signup} from '../controllers/user.controller';
 import {createExercise, findMyExercise, findOfficialExercises, findSelectedExercises,
     findAllExercisesDuringPeriod, setSelectedExercise, findChecksInMonth, rank, findAllExercises} from '../controllers/exercise.controller';
 //用户注册 - 手动添加用户
@@ -9,6 +9,7 @@ import {createExercise, findMyExercise, findOfficialExercises, findSelectedExerc
 
 //用户登录
 router.post('/api/userSignin', signin);
+router.post('/api/signup', signup);
 router.get('/api/ranks', verifyLogin, rank);
 //用户退出登录
 // router.post('/api/userSignout', userControl.userSignout)
