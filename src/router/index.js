@@ -25,12 +25,12 @@ const routes = [
       {
         path: '/basicDetail',
         name: 'BasicDetail',
-        component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/basic/BasicDetail.vue')
+        component: () => import(/* webpackChunkName: "BasicDetail" */'../views/basic/BasicDetail.vue')
       },
       {
         path: '/Rankings',
         name: 'Rankings',
-        component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/Rankings/Rankings.vue')
+        component: () => import(/* webpackChunkName: "Rankings" */'../views/Rankings/Rankings.vue')
       },
     ]
   }

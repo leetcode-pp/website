@@ -1,17 +1,13 @@
 <template>
   <div id="Rankings_container">
-    <!-- 昵称 -->
-    <!-- 当月打卡次数 -->
-    <!-- 被精选次数 -->
-    <el-table :data="rankingsData" style="width: 100%">
-      <!-- <el-table-column prop="date" label="排名">
+    <el-table :data="rankings" style="width: 100%">
+      <el-table-column prop="rank" label="排名" width="80">
         <template slot-scope="scope">
-          <span class="top" :class="topStyle(scope.row)">
+          <span class="top" :class="topStyle(scope.row.rank)">
             {{ scope.row.rank }}
           </span>
         </template>
-      </el-table-column> -->
-      <el-table-column type="index" label="排名"> </el-table-column>
+      </el-table-column>
       <el-table-column prop="name" label="昵称"> </el-table-column>
       <el-table-column prop="selects" label="当月打卡次数"> </el-table-column>
       <el-table-column prop="checks" label="被精选次数"> </el-table-column>
@@ -20,37 +16,43 @@
 </template>
 
 <script>
+import { queryRankings } from "@/api/rankings";
 export default {
   name: "Rankings",
   props: {},
   components: {},
   data() {
     return {
-      rankingsData: [
+      rankings: [
         {
           name: "lucifer",
           selects: 0,
-          checks: 0
+          checks: 0,
+          rank: 1
         },
         {
-          name: "lucifer",
+          name: "lucifer1",
           selects: 0,
-          checks: 0
+          checks: 0,
+          rank: 2
         },
         {
-          name: "lucifer",
+          name: "lucifer2",
           selects: 0,
-          checks: 0
+          checks: 0,
+          rank: 3
         },
         {
-          name: "lucifer",
+          name: "lucifer3",
           selects: 0,
-          checks: 0
+          checks: 0,
+          rank: 4
         },
         {
-          name: "lucifer",
+          name: "lucifer4",
           selects: 0,
-          checks: 0
+          checks: 0,
+          rank: 5
         }
       ]
     };
@@ -59,17 +61,12 @@ export default {
   mounted() {},
   methods: {
     topStyle(top) {
-      console.log(top);
-      switch (top) {
-        case 1:
-          return "top1";
-        case 2:
-          return "top2";
-        case 3:
-          return "top3";
-        default:
-          return "";
+      if (top <= 3) {
+        return "top" + top;
       }
+    },
+    getRankings() {
+      this.rankings = queryRankings();
     }
   }
 };
@@ -79,29 +76,27 @@ export default {
 #Rankings_container {
   /deep/ .el-table {
     // 排名数字
-
     th,
     td {
       text-align: center;
     }
     .top {
-      display: inline-block;
       text-align: center;
-      width: 10px;
       font-size: 16px;
       font-family: Roboto-Medium, Roboto;
       font-weight: 500;
       color: rgba(0, 0, 0, 0.45);
-      line-height: 22px;
-      margin-right: 16px;
     }
     .top1 {
+      font-weight: 700;
       color: rgba(234, 46, 46, 1);
     }
     .top2 {
+      font-weight: 700;
       color: rgba(155, 159, 195, 1);
     }
     .top3 {
+      font-weight: 700;
       color: rgba(246, 159, 18, 1);
     }
   }
