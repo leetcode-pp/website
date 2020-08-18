@@ -116,7 +116,7 @@ export default {
 
 <style scoped lang="less">
 .login_panel {
-  position: fixed;
+  position: absolute;
   width: 100vw;
   height: 100vh;
   background: rgba(0, 0, 0, 0.6);
