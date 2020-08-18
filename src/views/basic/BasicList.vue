@@ -1,21 +1,21 @@
 <template>
-  <div>
+  <div style="width: 60%;margin: auto">
     <template>
-      <el-table :data="solutionData"
-                @row-click="handleClick"
-                style="width: 100%">
-        <el-table-column prop="title"
-                         label="题目">
-          <template slot-scope="scope">
-            <span :class="['title', { 'icon-new': scope.row.isNew }]">{{scope.row.title}}</span>
-          </template>
-        </el-table-column>
-      </el-table>
-      <pagination v-show="total>0"
-                  :total="total"
-                  :page.sync="queryParams.pageNum"
-                  :limit.sync="queryParams.pageSize"
-                  @pagination=""/>
+          <el-table :data="solutionData"
+                    @row-click="handleClick"
+                    style="width: 100%">
+            <el-table-column prop="title"
+                             label="讲义">
+              <template slot-scope="scope">
+                <span :class="['title', { 'icon-new': scope.row.isNew }]">{{scope.row.title}}</span>
+              </template>
+            </el-table-column>
+          </el-table>
+          <pagination v-show="total>0"
+                      :total="total"
+                      :page.sync="queryParams.pageNum"
+                      :limit.sync="queryParams.pageSize"
+                      @pagination=""/>
     </template>
   </div>
 </template>
