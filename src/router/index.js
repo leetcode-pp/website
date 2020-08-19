@@ -15,22 +15,22 @@ const routes = [
       {
         path: '/about',
         name: 'About',
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+        component: () => import('../views/About.vue')
       },
       {
         path: '/basic',
         name: 'Basic',
-        component: () => import(/* webpackChunkName: "BasicList" */ '../views/basic/BasicList.vue')
+        component: () => import('../views/basic/BasicList.vue')
       },
       {
         path: '/basicDetail',
         name: 'BasicDetail',
-        component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/basic/BasicDetail.vue')
+        component: () => import('../views/basic/BasicDetail.vue')
       },
       {
         path: '/Rankings',
         name: 'Rankings',
-        component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/Rankings/Rankings.vue')
+        component: () => import('../views/Rankings/Rankings.vue')
       },
     ]
   }
