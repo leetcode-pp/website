@@ -2,7 +2,7 @@
   <div class="header">
 
     <div class="header-nav">
-      <div class="logo" >
+      <div class="logo">
         <img src="../assets/logo2.png" alt="">
       </div>
       <div style="width: 100%">
@@ -52,28 +52,22 @@
   .header {
     width: 100%;
     justify-content: center;
-    text-align: center;
     background-color: #545c64;
 
     .header-nav {
+      margin: auto;
+      width: 70%;
+      display: flex;
+
       .logo {
         display: inline-block;
         width: 160px;
         height: 60px;
+
         img {
-          /*width: 100px;*/
           height: 60px;
         }
       }
-
-      margin: auto;
-      width: 70%;
-      position: relative;
-      display: flex;
-      -webkit-box-pack: justify;
-      justify-content: space-between;
-      flex-wrap: nowrap;
-      padding: 0px 20px;
 
       .el-menu {
         width: 50%;
