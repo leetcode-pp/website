@@ -55,6 +55,7 @@
           }
         })
       },
+      
       getAllExercises() {
         allExercises().then(response => {
         });
