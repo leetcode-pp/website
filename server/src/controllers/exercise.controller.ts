@@ -42,10 +42,8 @@ const createExercise = async (ctx, next) => {
 const findMyExercise = async (ctx, next) => {
     try {
         let userName = ctx.userName;
-        let date = ctx.query.date;
-        date = new Date(date);
-        let subject = await Subject.findOne({date: date});
-        let myExercise = await Exercises.findOne({userName: userName, subjectId: subject._id});
+        let subjectId = parseInt(ctx.query.subjectId);
+        let myExercise = await Exercises.findOne({userName: userName, subjectId: subjectId});
         ctx.response.body = (myExercise).toJSON();
 
     } catch(err) {
@@ -55,10 +53,8 @@ const findMyExercise = async (ctx, next) => {
 
 const findOfficialExercises = async (ctx, next) => {
     try {
-        let date = ctx.query.date;
-        date = new Date(date);
-        let subject = await Subject.findOne({date: date});
-        let officialExercises = await Exercises.find({isOfficial:true, subjectId: subject._id});
+        let subjectId = parseInt(ctx.query.subjectId);
+        let officialExercises = await Exercises.find({isOfficial:true, subjectId: subjectId});
         ctx.response.body = JSON.stringify(officialExercises);
     } catch(err) {
         console.log(err);
@@ -67,10 +63,8 @@ const findOfficialExercises = async (ctx, next) => {
 
 const findSelectedExercises = async (ctx, next) => {
     try {
-        let date = ctx.query.date;
-        date = new Date(date);
-        let subject = await Subject.findOne({date: date});
-        let selectedExercises = await Exercises.find({isSelected:true, subjectId: subject._id});
+        let subjectId = parseInt(ctx.query.subjectId);
+        let selectedExercises = await Exercises.find({isSelected:true, subjectId: subjectId});
         ctx.response.body = JSON.stringify(selectedExercises);
     } catch(err) {
         console.log(err);
@@ -80,10 +74,8 @@ const findSelectedExercises = async (ctx, next) => {
 
 const findAllExercises = async (ctx, next) => {
     try {
-        let date = ctx.query.date;
-        date = new Date(date);
-        let subject = await Subject.findOne({date: date});
-        let allExercises = await Exercises.find({subjectId: subject._id});
+        let subjectId = parseInt(ctx.query.subjectId);
+        let allExercises = await Exercises.find({subjectId: subjectId});
         ctx.response.body = JSON.stringify(allExercises);
     } catch(err) {
         console.log(err);
