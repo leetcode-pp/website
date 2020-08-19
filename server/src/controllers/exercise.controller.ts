@@ -174,8 +174,13 @@ const findChecksInMonth = async (ctx, next) => {
 const rank = async (ctx, next) => {
     let from = ctx.query.from;
     let to = ctx.query.to;
-    from = new Date(from);
-    to = new Date(to);
+    if (from == undefined || to == undefined) {
+        from = new Date("2020-09-01");
+        to = new Date();
+    } else {
+        from = new Date(from);
+        to = new Date(to);
+    }
     let results = await Exercises.aggregate([
       {
           $lookup: {
