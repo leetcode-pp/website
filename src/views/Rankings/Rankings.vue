@@ -10,6 +10,7 @@
 </template>
 
 <script>
+import { queryRankings } from "@/api/rankings";
 export default {
   name: "Rankings",
   props: {},
@@ -64,9 +65,7 @@ export default {
       }
     },
     getRankings() {
-      this.$http.get("/api/ranks").then(res => {
-        this.rankings = res;
-      });
+      this.rankings = queryRankings();
     }
   }
 };

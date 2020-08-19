@@ -32,14 +32,14 @@
         <el-form-item>
           <button
             class="login_button"
-            @click="login()"
+            @click="handleLogin()"
             v-show="active == 'login'"
           >
             登录
           </button>
           <button
             class="login_button signUp"
-            @click="signUp()"
+            @click="handleSignUp()"
             v-show="active == 'signUp'"
           >
             注册
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { login, signUp } from "@/api/login";
 export default {
   name: "login",
   props: {},
@@ -62,13 +63,13 @@ export default {
         userName: "",
         password: ""
       },
-      userName: "" //登录接口返回得用户名
-      // rules: {
-      //   userName: [
-      //     { required: true, message: "请输入用户名", trigger: "blur" }
-      //   ],
-      //   password: [{ required: true, message: "请输入密码", trigger: "blur" }]
-      // }
+      userName: "", //登录接口返回得用户名
+      rules: {
+        userName: [
+          { required: true, message: "请输入用户名", trigger: "blur" }
+        ],
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+      }
     };
   },
   created() {},
@@ -77,38 +78,14 @@ export default {
     close() {
       this.$emit("update:loginPanelShow", false);
     },
-    login() {
-      // this.$refs["ruleForm"].validate(valid => {
-      //   if (valid) {
-      //     alert("submit!");
-      //   } else {
-      //     console.log("error submit!!");
-      //     return false;
-      //   }
-      // });
-      this.$http
-        .post("/api/userSignin", {
-          data: {
-            name: this.loginForm.userName,
-            password: this.loginForm.password
-          }
-        })
-        .then(res => {
-          this.userName = res.data.name;
-          localStorage.setItem("91website_token", res.token);
-        });
+    handleLogin() {
+      this.userName = login({
+        name: this.loginForm.userName,
+        password: this.loginForm.password
+      });
     },
-    signUp() {
-      this.$http
-        .post("/api/signup", {
-          data: {
-            name: this.loginForm.userName,
-            password: this.loginForm.password
-          }
-        })
-        .then(res => {
-          console.log(res);
-        });
+    handleSignUp() {
+      let res = signUp();
     }
   }
 };
