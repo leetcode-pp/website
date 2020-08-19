@@ -22,10 +22,10 @@ router.get('/api/ranks', verifyLogin, rank);
 router.post('/api/saveExercise', verifyLogin, createExercise);
 
 //获取我的题解
-router.get('/api/myExercise/bydate', verifyLogin, findMyExercise);
-router.get('/api/officialExercises/bydate', verifyLogin, findOfficialExercises);
-router.get('/api/selectedExercises/bydate', verifyLogin, findSelectedExercises);
-router.get('/api/allExercises/bydate', verifyLogin, findAllExercises);
+router.get('/api/myExercise/byid', verifyLogin, findMyExercise);
+router.get('/api/officialExercises/byid', verifyLogin, findOfficialExercises);
+router.get('/api/selectedExercises/byid', verifyLogin, findSelectedExercises);
+router.get('/api/allExercises/byid', verifyLogin, findAllExercises);
 
 router.get('/api/allExercises/period', verifyLogin, findAllExercisesDuringPeriod);
 router.get('/api/addSelected', verifyLogin, setSelectedExercise);

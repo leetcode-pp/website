@@ -42,7 +42,7 @@ const createExercise = async (ctx, next) => {
 const findMyExercise = async (ctx, next) => {
     try {
         let userName = ctx.userName;
-        let subjectId = parseInt(ctx.query.subjectId);
+        let subjectId = parseInt(ctx.query.subjectid);
         let myExercise = await Exercises.findOne({userName: userName, subjectId: subjectId});
         ctx.response.body = (myExercise).toJSON();
 
@@ -53,7 +53,7 @@ const findMyExercise = async (ctx, next) => {
 
 const findOfficialExercises = async (ctx, next) => {
     try {
-        let subjectId = parseInt(ctx.query.subjectId);
+        let subjectId = parseInt(ctx.query.subjectid);
         let officialExercises = await Exercises.find({isOfficial:true, subjectId: subjectId});
         ctx.response.body = JSON.stringify(officialExercises);
     } catch(err) {
@@ -63,7 +63,7 @@ const findOfficialExercises = async (ctx, next) => {
 
 const findSelectedExercises = async (ctx, next) => {
     try {
-        let subjectId = parseInt(ctx.query.subjectId);
+        let subjectId = parseInt(ctx.query.subjectid);
         let selectedExercises = await Exercises.find({isSelected:true, subjectId: subjectId});
         ctx.response.body = JSON.stringify(selectedExercises);
     } catch(err) {
@@ -74,7 +74,7 @@ const findSelectedExercises = async (ctx, next) => {
 
 const findAllExercises = async (ctx, next) => {
     try {
-        let subjectId = parseInt(ctx.query.subjectId);
+        let subjectId = parseInt(ctx.query.subjectid);
         let allExercises = await Exercises.find({subjectId: subjectId});
         ctx.response.body = JSON.stringify(allExercises);
     } catch(err) {
