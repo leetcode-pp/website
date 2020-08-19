@@ -1,27 +1,28 @@
 <template>
   <div style="width: 60%;margin: auto">
     <template>
-          <el-table :data="solutionData"
-                    @row-click="handleClick"
-                    style="width: 100%">
-            <el-table-column prop="title"
-                             label="讲义">
-              <template slot-scope="scope">
-                <span :class="['title', { 'icon-new': scope.row.isNew }]">{{scope.row.title}}</span>
-              </template>
-            </el-table-column>
-          </el-table>
-          <pagination v-show="total>0"
-                      :total="total"
-                      :page.sync="queryParams.pageNum"
-                      :limit.sync="queryParams.pageSize"
-                      @pagination=""/>
+      <el-table :data="solutionData"
+                @row-click="handleClick"
+                style="width: 100%">
+        <el-table-column prop="title"
+                         label="讲义">
+          <template slot-scope="scope">
+            <span :class="['title', { 'icon-new': scope.row.isNew }]">{{scope.row.title}}</span>
+          </template>
+        </el-table-column>
+      </el-table>
+      <pagination v-show="total>0"
+                  :total="total"
+                  :page.sync="queryParams.pageNum"
+                  :limit.sync="queryParams.pageSize"
+                  @pagination=""/>
     </template>
   </div>
 </template>
 
 <script>
   import solutionData from './solutionData'
+  import {allExercises} from "@/api/exercises";
 
   const REPO_URL = 'https://api.github.com/repos/azl397985856/leetcode/contents'
   export default {
@@ -34,11 +35,16 @@
           pageNum: 1,
           pageSize: 20
         },
-        total: 0
+        total: 0,
+        date: {
+          from: '2020-08-01',
+          to: '2020-09-10'
+        }
       }
     },
     created() {
       this.total = this.solutionData.length
+      this.getAllExercises()
     },
     methods: {
       handleClick(row) {
@@ -48,7 +54,11 @@
             url: REPO_URL + row.url
           }
         })
-      }
+      },
+      getAllExercises() {
+        allExercises().then(response => {
+        });
+      },
     }
   }
 </script>
