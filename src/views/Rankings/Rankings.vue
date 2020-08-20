@@ -1,7 +1,13 @@
 <template>
   <div id="Rankings_container">
-    <el-table :data="rankings" style="width: 100%" :cell-class-name="topStyle">
-      <el-table-column type="index" label="排名"> </el-table-column>
+    <el-table :data="rankings" style="width: 100%">
+      <el-table-column prop="rank" label="排名" width="80">
+        <template slot-scope="scope">
+          <span class="top" :class="topStyle(scope.row.rank)">
+            {{ scope.row.rank }}
+          </span>
+        </template>
+      </el-table-column>
       <el-table-column prop="name" label="昵称"> </el-table-column>
       <el-table-column prop="selects" label="当月打卡次数"> </el-table-column>
       <el-table-column prop="checks" label="被精选次数"> </el-table-column>
@@ -21,27 +27,32 @@ export default {
         {
           name: "lucifer",
           selects: 0,
-          checks: 0
+          checks: 0,
+          rank: 1
         },
         {
           name: "lucifer1",
           selects: 0,
-          checks: 0
+          checks: 0,
+          rank: 2
         },
         {
           name: "lucifer2",
           selects: 0,
-          checks: 0
+          checks: 0,
+          rank: 3
         },
         {
           name: "lucifer3",
           selects: 0,
-          checks: 0
+          checks: 0,
+          rank: 4
         },
         {
           name: "lucifer4",
           selects: 0,
-          checks: 0
+          checks: 0,
+          rank: 5
         }
       ]
     };
@@ -49,19 +60,9 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    topStyle({ row, column, rowIndex, columnIndex }) {
-      if (!columnIndex) {
-        console.log(rowIndex);
-        switch (rowIndex) {
-          case 0:
-            return "top top1";
-          case 1:
-            return "top top2";
-          case 2:
-            return "top top3";
-          default:
-            return "top";
-        }
+    topStyle(top) {
+      if (top <= 3) {
+        return "top" + top;
       }
     },
     getRankings() {
