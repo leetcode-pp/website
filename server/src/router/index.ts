@@ -8,9 +8,9 @@ import {createExercise, findMyExercise, findOfficialExercises, findSelectedExerc
 // router.post('/api/userSignup', userControl.userSignup)
 
 //用户登录
-router.post('/api/userSignin', signin);
-router.post('/api/signup', signup);
-router.get('/api/ranks', verifyLogin, rank);
+router.post('/api/v1/userSignin', signin);
+router.post('/api/v1/signup', signup);
+router.get('/api/v1/ranks', verifyLogin, rank);
 //用户退出登录
 // router.post('/api/userSignout', userControl.userSignout)
 
@@ -19,16 +19,16 @@ router.get('/api/ranks', verifyLogin, rank);
  */
 
 //保存题解
-router.post('/api/saveExercise', verifyLogin, createExercise);
+router.post('/api/v1/saveExercise', verifyLogin, createExercise);
 
 //获取我的题解
-router.get('/api/myExercise/byid', verifyLogin, findMyExercise);
-router.get('/api/officialExercises/byid', verifyLogin, findOfficialExercises);
-router.get('/api/selectedExercises/byid', verifyLogin, findSelectedExercises);
-router.get('/api/allExercises/byid', verifyLogin, findAllExercises);
+router.get('/api/v1/myExercise/byid', verifyLogin, findMyExercise);
+router.get('/api/v1/officialExercises/byid', verifyLogin, findOfficialExercises);
+router.get('/api/v1/selectedExercises/byid', verifyLogin, findSelectedExercises);
+router.get('/api/v1/allExercises/byid', verifyLogin, findAllExercises);
 
-router.get('/api/allExercises/period', verifyLogin, findAllExercisesDuringPeriod);
-router.get('/api/addSelected', verifyLogin, setSelectedExercise);
+router.get('/api/v1/allExercises/period', verifyLogin, findAllExercisesDuringPeriod);
+router.get('/api/v1/addSelected', verifyLogin, setSelectedExercise);
 
-router.get('/api/checks/period', verifyLogin,findChecksInMonth);
+router.get('/api/v1/checks/period', verifyLogin,findChecksInMonth);
 export default router;
