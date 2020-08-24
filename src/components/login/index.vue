@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { login, signUp } from "@/api/login";
+import { login, signUp } from "@/api/login.js";
 export default {
   name: "login",
   props: {},
@@ -79,9 +79,11 @@ export default {
       this.$emit("update:loginPanelShow", false);
     },
     handleLogin() {
-      this.userName = login({
+      login({
         name: this.loginForm.userName,
         password: this.loginForm.password
+      }).then(res => {
+        console.log(res);
       });
     },
     handleSignUp() {

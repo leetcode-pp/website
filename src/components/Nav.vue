@@ -1,27 +1,31 @@
 <template>
-  <div class="nav_bar">
-    <el-menu
-      style="text-align: center;width: 100%"
-      :default-active="activeIndex"
-      class="el-menu-demo"
-      mode="horizontal"
-      @select="handleSelect"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b"
-    >
-      <el-menu-item index="1">
-        <router-link to="/basic">基础篇</router-link>
-      </el-menu-item>
-      <el-menu-item index="2">
-        <router-link to="/about">进阶篇</router-link>
-      </el-menu-item>
-      <el-menu-item index="3">专题篇</el-menu-item>
-      <el-menu-item index="4">打卡</el-menu-item>
-      <el-menu-item index="5">
-        <router-link to="/rankings">排行榜</router-link>
-      </el-menu-item>
-    </el-menu>
+  <div class="header">
+    <div class="header-nav">
+      <div class="logo">
+        <img src="../assets/logo2.png" alt="" />
+      </div>
+      <div style="width: 100%">
+        <el-menu
+          :default-active="this.$route.path"
+          router
+          mode="horizontal"
+          class="el-menu-demo"
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b"
+        >
+          <el-menu-item
+            v-for="(item, i) in navList"
+            :key="i"
+            :index="item.name"
+          >
+            <template slot="title">
+              <span> {{ item.navItem }}</span>
+            </template>
+          </el-menu-item>
+        </el-menu>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -30,19 +34,47 @@ export default {
   name: "nav",
   data() {
     return {
-      activeIndex: "1"
+      navList: [
+        { name: "/basic", navItem: "基础篇" },
+        { name: "/about", navItem: "进阶篇" },
+        { name: "/topic", navItem: "专题篇" },
+        { name: "/clock", navItem: "打卡" },
+        { name: "/rankings", navItem: "排行榜" }
+      ]
     };
   },
-  methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    }
-  }
+  methods: {}
 };
 </script>
 
 <style scoped lang="less">
-.nav_bar {
-  position: relative;
+.header {
+  width: 100%;
+  justify-content: center;
+  background-color: #545c64;
+
+  .header-nav {
+    margin: auto;
+    width: 70%;
+    display: flex;
+
+    .logo {
+      display: inline-block;
+      width: 160px;
+      height: 60px;
+
+      img {
+        height: 60px;
+      }
+    }
+
+    .el-menu {
+      width: 50%;
+    }
+
+    /deep/ .el-menu-item {
+      width: 20%;
+    }
+  }
 }
 </style>

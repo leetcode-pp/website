@@ -16,48 +16,19 @@
 </template>
 
 <script>
-import { queryRankings } from "@/api/rankings";
+import { queryRankings } from "@/api/rankings.js";
 export default {
   name: "Rankings",
   props: {},
   components: {},
   data() {
     return {
-      rankings: [
-        {
-          name: "lucifer",
-          selects: 0,
-          checks: 0,
-          rank: 1
-        },
-        {
-          name: "lucifer1",
-          selects: 0,
-          checks: 0,
-          rank: 2
-        },
-        {
-          name: "lucifer2",
-          selects: 0,
-          checks: 0,
-          rank: 3
-        },
-        {
-          name: "lucifer3",
-          selects: 0,
-          checks: 0,
-          rank: 4
-        },
-        {
-          name: "lucifer4",
-          selects: 0,
-          checks: 0,
-          rank: 5
-        }
-      ]
+      rankings: []
     };
   },
-  created() {},
+  created() {
+    this.getRankings();
+  },
   mounted() {},
   methods: {
     topStyle(top) {
@@ -66,7 +37,10 @@ export default {
       }
     },
     getRankings() {
-      this.rankings = queryRankings();
+      queryRankings().then(res => {
+        res.data.forEach((cur, i) => [(cur.rank = i + 1)]);
+        this.rankings = res.data;
+      });
     }
   }
 };

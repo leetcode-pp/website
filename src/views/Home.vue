@@ -38,7 +38,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .layout {
-  width: 80%;
+  width: 100%;
   text-align: center;
   margin: auto;
   justify-content: center;
@@ -48,6 +48,7 @@ export default {
   }
   .el-header {
     position: relative;
+    padding: 0;
   }
   /deep/ .login_btn {
     position: absolute;
