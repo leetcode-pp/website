@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div style="width: 60%;margin: auto">
     <template>
       <el-table :data="solutionData"
                 @row-click="handleClick"
                 style="width: 100%">
         <el-table-column prop="title"
-                         label="题目">
+                         label="讲义">
           <template slot-scope="scope">
             <span :class="['title', { 'icon-new': scope.row.isNew }]">{{scope.row.title}}</span>
           </template>
@@ -15,15 +15,20 @@
                   :total="total"
                   :page.sync="queryParams.pageNum"
                   :limit.sync="queryParams.pageSize"
-                  @pagination="getComList"/>
+                  @pagination=""/>
     </template>
   </div>
 </template>
 
 <script>
   import solutionData from './solutionData'
+  import {allExercises} from "@/api/exercises";
 
-  const REPO_URL = 'https://api.github.com/repos/azl397985856/leetcode/contents'
+  const REPO_URL = 'https://api.github.com/repos/azl397985856/leetcode/contents';
+  const PAGE_NUM = 1;
+  const PAGE_SIZE = 20;
+  const FROM = '2020-08-01';
+  const TO ='2020-09-10';
   export default {
     name: 'BasicList',
     data() {
@@ -31,24 +36,34 @@
         solutionData: solutionData,
         // 查询参数
         queryParams: {
-          pageNum: 1,
-          pageSize: 20
+          pageNum: PAGE_NUM,
+          pageSize: PAGE_SIZE
         },
-        total: 0
+        total: 0,
+        date: {
+          from: FROM,
+          to: TO
+        }
       }
     },
     created() {
       this.total = this.solutionData.length
+      this.getAllExercises()
     },
     methods: {
       handleClick(row) {
         this.$router.push({
-          path: 'basicDetail',
+          path: 'solutionDetails',
           query: {
             url: REPO_URL + row.url
           }
         })
-      }
+      },
+
+      getAllExercises() {
+        allExercises().then(response => {
+        });
+      },
     }
   }
 </script>

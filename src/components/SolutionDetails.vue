@@ -1,15 +1,15 @@
 <template>
   <div class="wrapper">
     <div v-if="loading" class="spinner-container">
-      <a-spin size="large"></a-spin>
+      <span size="large"></span>
     </div>
     <div v-if="!loading" class="container">
       <div class="max-width-800">
-        <a-alert
-          v-if="hasError"
-          message="很抱歉，目前请求无法执行，请稍候再试。"
-          type="error"
-        />
+<!--        <a-alert-->
+<!--          v-if="hasError"-->
+<!--          message="很抱歉，目前请求无法执行，请稍候再试。"-->
+<!--          type="error"-->
+<!--        />-->
       </div>
       <h2 class="subtitle">题解详情</h2>
       <div class="desc text-align-left" v-html="desc"></div>
@@ -26,7 +26,7 @@
   const md = new MarkdownIt()
   const URL_REGEX = /(\s+)(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/g
   const LINK_REGRX = /\[(.*)\]\(\.\.\/(.*)\)/g
-  const WAREHOURSE_ADDRESS =
+  const REPO =
     'https://github.com/azl397985856/leetcode/raw/master/'
   const ERROR_MSG_DISPLAY_DURATION = 5000
   export default {
@@ -61,7 +61,7 @@
       addLinkMarkdown(content) {
         return content
           .replace(URL_REGEX, '<$2>')
-          .replace(LINK_REGRX, `[$1](${WAREHOURSE_ADDRESS}$2)`)
+          .replace(LINK_REGRX, `[$1](${REPO}$2)`)
       }
     },
     async mounted() {
@@ -85,7 +85,7 @@
 </script>
 
 <style lang="less" scoped>
-   p > code {
+  p > code {
     display: inline;
   }
   .wrapper {

@@ -17,22 +17,26 @@
 // @ is an alias to /src
 import Nav from '@/components/Nav.vue'
 
+
 export default {
   name: 'Home',
   components: {
-    Nav
+    Nav,
   }
 }
 </script>
 <style lang="less" scoped>
   .layout {
-    width: 80%;
+    width: 100%;
     text-align: center;
     margin: auto;
     justify-content: center;
 
     .content {
       min-height: 85vh;
+    }
+    .el-header{
+      padding: 0;
     }
   }
 </style>
