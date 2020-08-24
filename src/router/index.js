@@ -1,31 +1,35 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Home from "../views/Home.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
+    path: "/",
+    name: "Home",
     component: Home,
     children: [
-      { path: '/', redirect: { name: 'Basic' } },
+      { path: "/", redirect: { name: "Basic" } },
       {
-        path: '/about',
-        name: 'About',
-        component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+        path: "/about",
+        name: "About",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views/About.vue")
       },
       {
-        path: '/basic',
-        name: 'Basic',
-        component: () => import(/* webpackChunkName: "BasicList" */ '../views/basic/BasicList.vue')
+        path: "/basic",
+        name: "Basic",
+        component: () =>
+          import(
+            /* webpackChunkName: "BasicList" */ "../views/basic/BasicList.vue"
+          )
       },
-      {
-        path: '/basicDetail',
-        name: 'BasicDetail',
-        component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/basic/BasicDetail.vue')
-      },
+      // {
+      //   path: '/basicDetail',
+      //   name: 'BasicDetail',
+      //   component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/basic/BasicDetail.vue')
+      // },
       {
         path: '/clock',
         name: 'Clock',
@@ -41,16 +45,23 @@ const routes = [
           title: '91官网 - 打卡详情页面'
         },
         component: () => import(/* webpackChunkName: "ClockDetail" */ '../views/ClockDetail.vue')
+      },
+      {
+        path: "/solutionDetails",
+        name: "SolutionDetails",
+        component: () =>
+          import(
+            /* webpackChunkName: "SolutionDetails" */ "../components/SolutionDetails.vue"
+          )
       }
     ]
   }
-
-]
+];
 
 const router = new VueRouter({
   mode: "history",
   routes
-})
+});
 
 router.afterEach((to, from) => {
   document.title = to.meta.title || '91website'
