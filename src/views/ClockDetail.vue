@@ -23,7 +23,7 @@
       <div class="editor">
         <codemirror ref="jsonEditor" v-model="code" :options="cmOptions" style="height: 600px;" />
       </div>
-      <el-button type="primary">打卡</el-button>
+      <el-button type="primary" @click="onSubmit">打卡</el-button>
     </div>
   </div>
 </template>
@@ -114,6 +114,11 @@ export default {
     },
   },
   mounted() {},
+  methods: {
+    onSubmit() {
+      console.log(this.code, this.selected)
+    }
+  },
 };
 </script>
 

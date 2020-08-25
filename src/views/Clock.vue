@@ -54,9 +54,11 @@ export default {
       console.log("handleNext");
     },
     // 点击日期
-    handleClick(item) {
-      console.log("handleClick", item)
-    }
+    handleClick({_id}) {
+      this.$router.push({
+        path: `/clock/detail/${_id}`
+      });
+    },
   },
 };
 </script>

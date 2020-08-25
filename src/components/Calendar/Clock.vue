@@ -26,14 +26,16 @@
         v-for="(column,index) in ColumnList"
         :key="index"
       >
-        <el-col v-for="item in column" :key="item.key" align="center">
+        <el-col v-for="(item, childIndex) in column" :key="item.key" align="center">
           <el-tooltip
             class="item"
             effect="dark"
-            :content="`${item.value && item.value.format('YYYYMMDD')}的每日一题`"
+            :content="item.title"
             placement="top"
             :disabled="defaultMoment.isBefore(item.value)"
           >
+          <!-- {{item.title}} -->
+            <!-- :content="`${item.value && item.value.format('YYYYMMDD')}的每日一题`" -->
             <el-button
               v-if="item.value"
               circle
@@ -51,6 +53,8 @@
 
 <script>
 import moment from "moment";
+import { getPeriod } from "@/api/clock.js";
+
 const nowMoment = moment().startOf("day");
 
 export default {
@@ -76,6 +80,8 @@ export default {
       clickMoment: nowMoment,
       // 默认日期
       defaultMoment: nowMoment,
+      // 当前的题目list
+      list: [],
     };
   },
   computed: {
@@ -85,7 +91,22 @@ export default {
     // 日历的moment数据
     ColumnList() {
       let endMoment = moment(this.nowMoment).startOf("month");
-      return this.getColumn(endMoment);
+      const columnList = this.getColumn(endMoment)
+      console.log(this.list.length)
+      if (!this.list.length) return columnList
+      let index = 0;
+      return columnList.map((rowItem, rowIndex) => {
+        return rowItem.map(item => {
+          if (item.value === undefined) return item
+          const res = {
+            ...item,
+            ...(this.list[index] || {})
+          }
+          // console.log(res, this.list[index])
+          index ++;
+          return res
+        })
+      });
     },
     // 当前时间
     nowDate() {
@@ -100,10 +121,14 @@ export default {
       };
     },
   },
-  mounted() {
+  async mounted() {
     // table
     // - tbody 7列 0123456 0->7
     // - tbody 6行
+    this.list = await getPeriod({
+      form: moment(nowMoment).startOf("month").format("YYYY-MM-DD"),
+      to: moment(nowMoment).endOf("month").format("YYYY-MM-DD"),
+    });
   },
   methods: {
     getColumn(momentValue) {
@@ -132,6 +157,7 @@ export default {
         const itemMoment = moment(momentValue).add(i - key, "days");
         data[i] = {
           key: i,
+          // title: this.list[i] ? this.list[i].title : "",
           state: 3,
         };
         if (!this.showOtherMonth && nowMonth !== itemMoment.get("month")) {
