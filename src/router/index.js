@@ -47,6 +47,11 @@ const routes = [
         component: () => import(/* webpackChunkName: "ClockDetail" */ '../views/ClockDetail.vue')
       },
       {
+        path: '/Rankings',
+        name: 'Rankings',
+        component: () => import(/* webpackChunkName: "Rankings" */'../views/Rankings/Rankings.vue')
+      },
+      {
         path: "/solutionDetails",
         name: "SolutionDetails",
         component: () =>
@@ -54,6 +59,7 @@ const routes = [
             /* webpackChunkName: "SolutionDetails" */ "../components/SolutionDetails.vue"
           )
       }
+
     ]
   }
 ];
