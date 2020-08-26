@@ -1,18 +1,18 @@
 <template>
-  <sub-list :list="projectList"> </sub-list>
+  <sub-list :list="answerList"></sub-list>
 </template>
 
 <script>
 import subList from "@/components/subList";
 import { queryAnswerList } from "@/api/exercises.js";
 export default {
-  name: "answerList",
+  name: "answerListPage",
   props: {},
   components: { subList },
   data() {
     return {
       subjectId: null,
-      projectList: []
+      answerList: []
     };
   },
   created() {
@@ -24,7 +24,7 @@ export default {
     getAnswerList() {
       queryAnswerList({ subjectId: this.subjectId }).then(res => {
         console.log(res);
-        this.projectList = res;
+        this.answerList = res;
       });
     }
   }
