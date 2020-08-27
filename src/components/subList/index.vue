@@ -8,8 +8,9 @@
 
 <script>
 import listItem from "@/components/subList/listItem";
+
 export default {
-  name: "answerList",
+  name: "subList",
   props: {
     list: {
       type: Array,
