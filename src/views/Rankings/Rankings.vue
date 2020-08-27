@@ -17,6 +17,7 @@
 
 <script>
 import { queryRankings } from "@/api/rankings.js";
+
 export default {
   name: "Rankings",
   props: {},

@@ -13,6 +13,7 @@
 
 <script>
 import { debounce } from "lodash";
+import { saveExercise } from "@/api/clock";
 // import marked from "marked";
 // let renderMD = new marked.Renderer();
 
@@ -51,7 +52,7 @@ export default {
       console.log(this.input);
       setTimeout(() => {
         this.loading = false;
-      }, 1000)
+      }, 1000);
     },
   },
 };

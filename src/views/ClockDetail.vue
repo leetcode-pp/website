@@ -3,16 +3,20 @@
     <div class="clock">
       <div class="left">
         <el-tabs class="tabs">
-          <el-tab-pane label="题目描述">题目描述</el-tab-pane>
-          <el-tab-pane label="官方题解">官方题解</el-tab-pane>
-          <el-tab-pane label="精选题解">精选题解</el-tab-pane>
-          <el-tab-pane label="我的题解">我的题解</el-tab-pane>
+          <el-tab-pane
+            v-for="({value, name, ComponentName}) in TabList"
+            :key="value"
+            :label="name"
+            lazy
+          >
+            <components :is="ComponentName" :type="value" :id="id" @ClickItem="CheckDetail"></components>
+          </el-tab-pane>
         </el-tabs>
       </div>
       <div class="line"></div>
       <div class="right">
-        <Editor v-if="type === 'editor'"></Editor>
-        <Detail v-if="type === 'detail'"></Detail>
+        <Editor v-show="type === 'editor'" :id="id"></Editor>
+        <Detail v-show="type === 'detail'" :id="id" :info="info" @close="CheckEditor"></Detail>
       </div>
     </div>
   </div>
@@ -21,23 +25,63 @@
 <script>
 import Editor from "./Clock/Editor";
 import Detail from "./Clock/Detail";
+import Description from "./Clock/Description";
+import ClockList from "./Clock/List";
+
+const TYPE = ["editor", "detail"];
+
+const LISTTYPE = [
+  {
+    name: "官方题解",
+    value: "1",
+  },
+  {
+    name: "精选题解",
+    value: "2",
+  },
+  {
+    name: "我的题解",
+    value: "3",
+  },
+];
 
 export default {
   name: "ClockDetail",
   components: {
     Editor,
-    Detail
+    Detail,
+    Description,
+    ClockList,
   },
   data() {
     return {
-      type: 'editor'
+      id: "",
+      type: TYPE[0],
+      info: {},
+      TabList: [
+        {
+          name: "题目描述",
+          value: "0",
+          ComponentName: Description,
+        },
+        ...LISTTYPE.map((item) => ({ ...item, ComponentName: ClockList })),
+      ],
     };
   },
   computed: {},
   mounted() {
-    console.log(this.$route)
+    this.id = this.$route.params.id;
   },
-  methods: {},
+  methods: {
+    CheckDetail(item) {
+      this.type = TYPE[1];
+      this.info = item
+    },
+    CheckEditor() {
+      this.type = TYPE[0];
+      this.info = {}
+    }
+  },
 };
 </script>
 
