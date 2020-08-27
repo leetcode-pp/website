@@ -26,7 +26,7 @@
         v-for="(column,index) in ColumnList"
         :key="index"
       >
-        <el-col v-for="(item, childIndex) in column" :key="item.key" align="center">
+        <el-col v-for="item in column" :key="item.key" align="center">
           <el-tooltip
             class="item"
             effect="dark"

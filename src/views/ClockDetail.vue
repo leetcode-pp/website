@@ -1,134 +1,73 @@
 <template>
-  <div class="clock">
-    <div class="left">
-      <el-tabs type="border-card">
-        <el-tab-pane label="题目描述">题目描述</el-tab-pane>
-        <el-tab-pane label="官方题解">官方题解</el-tab-pane>
-        <el-tab-pane label="精选题解">精选题解</el-tab-pane>
-        <el-tab-pane label="我的题解">我的题解</el-tab-pane>
-      </el-tabs>
-    </div>
-    <div class="line"></div>
-    <div class="right">
-      <div class="editor-handle">
-        <el-select v-model="selected" placeholder="请选择">
-          <el-option
-            v-for="item in modes"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
+  <div class="container">
+    <div class="clock">
+      <div class="left">
+        <el-tabs class="tabs">
+          <el-tab-pane label="题目描述">题目描述</el-tab-pane>
+          <el-tab-pane label="官方题解">官方题解</el-tab-pane>
+          <el-tab-pane label="精选题解">精选题解</el-tab-pane>
+          <el-tab-pane label="我的题解">我的题解</el-tab-pane>
+        </el-tabs>
       </div>
-      <div class="editor">
-        <codemirror ref="jsonEditor" v-model="code" :options="cmOptions" style="height: 600px;" />
+      <div class="line"></div>
+      <div class="right">
+        <Editor v-if="type === 'editor'"></Editor>
+        <Detail v-if="type === 'detail'"></Detail>
       </div>
-      <el-button type="primary" @click="onSubmit">打卡</el-button>
     </div>
   </div>
 </template>
 
 <script>
-import { codemirror } from "vue-codemirror";
-// require styles
-import "codemirror/lib/codemirror.css";
-// require more codemirror resource...
-import "codemirror/mode/meta"; // 这js模式必须引入的
-import "codemirror/mode/javascript/javascript"; // 这js模式必须引入的
-import "codemirror/mode/python/python"; // 这js模式必须引入的
-import "codemirror/mode/php/php"; // 这js模式必须引入的
-import "codemirror/mode/go/go"; // 这js模式必须引入的
-import "codemirror/mode/clike/clike"; // 这js模式必须引入的
-
-import "codemirror/addon/selection/active-line"; //光标行背景高亮，配置里面也需要styleActiveLine设置为true
-import "codemirror/keymap/sublime"; //sublime编辑器效果
-
-import "codemirror/theme/base16-dark.css";
-import "codemirror/theme/monokai.css"; //编辑器主题样式，配置里面theme需要设置monokai
-
-//下面这几个引入的主要是验证提示类的,配置里的lint需要设置true,gutters: ['CodeMirror-lint-markers']
-import "codemirror/addon/lint/lint";
-import "codemirror/addon/lint/lint.css";
+import Editor from "./Clock/Editor";
+import Detail from "./Clock/Detail";
 
 export default {
   name: "ClockDetail",
   components: {
-    codemirror,
+    Editor,
+    Detail
   },
   data() {
     return {
-      code: "//code",
-      selected: "C",
-      modes: [
-        {
-          value: "text/x-csrc",
-          label: "C",
-        },
-        {
-          value: "text/x-c++src",
-          label: "C++",
-        },
-        {
-          value: "text/x-java",
-          label: "Java",
-        },
-        {
-          value: "text/x-csharp",
-          label: "C#",
-        },
-        {
-          value: "text/x-objectivec",
-          label: "Objective-C",
-        },
-        {
-          value: "text/javascript",
-          label: "JavaScript",
-        },
-        {
-          value: "text/x-php",
-          label: "PHP",
-        },
-        {
-          value: "text/x-go",
-          label: "Go",
-        },
-        {
-          value: "text/x-python",
-          label: "Python",
-        },
-      ],
+      type: 'editor'
     };
   },
-  computed: {
-    codemirror() {
-      return this.$refs.jsonEditor.codemirror;
-    },
-    cmOptions() {
-      return {
-        tabSize: 4,
-        mode: this.selected,
-        theme: "monokai",
-        lineNumbers: true,
-        line: true,
-      };
-    },
+  computed: {},
+  mounted() {
+    console.log(this.$route)
   },
-  mounted() {},
-  methods: {
-    onSubmit() {
-      console.log(this.code, this.selected)
-    }
-  },
+  methods: {},
 };
 </script>
 
 <style lang="less" scoped>
+.container {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: left;
+}
+.container * {
+  box-sizing: border-box;
+}
+
 .clock {
+  max-width: 1280px;
+  margin: 0px auto;
   display: flex;
   align-items: stretch;
   justify-content: space-between;
+  height: 100%;
+  padding: 20px 0;
   .left {
     flex: 1;
+    .tabs {
+      height: 100%;
+    }
   }
   .line {
     height: 100;
@@ -136,22 +75,13 @@ export default {
     background: #ccc;
   }
   .right {
-    flex: 1;
+    flex: 2;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: stretch;
-    margin: 0;
-    padding: 0 10px;
-    .editor-handle {
-      display: flex;
-      justify-content: flex-start;
-      margin-bottom: 10px;
-    }
-    .editor {
-      text-align: left;
-      word-break: break-all;
-    }
+    padding: 0px;
+    position: relative;
   }
 }
 </style>

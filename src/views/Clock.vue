@@ -68,6 +68,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  width: 1280px;
+  margin: 0 auto;
   .calendar {
     width: 100%;
     height: 500px;
