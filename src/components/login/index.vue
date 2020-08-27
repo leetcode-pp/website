@@ -52,6 +52,7 @@
 
 <script>
 import { login, signUp } from "@/api/login.js";
+import { setToken } from "@/utils/auth.js";
 export default {
   name: "login",
   props: {},
@@ -79,15 +80,35 @@ export default {
       this.$emit("update:loginPanelShow", false);
     },
     handleLogin() {
+      if (!this.loginForm.userName || !this.loginForm.password) {
+        return this.$message.warning("用户名或密码不能为空！");
+      }
       login({
         name: this.loginForm.userName,
         password: this.loginForm.password
       }).then(res => {
-        console.log(res);
+        if (res.code == 200) {
+          console.log(res);
+          this.userName = res.data.name;
+          setToken(res.token);
+          this.close();
+          return this.$message.success("登录成功！");
+        }
       });
     },
     handleSignUp() {
-      let res = signUp();
+      if (!this.loginForm.userName || !this.loginForm.password) {
+        return this.$message.warning("用户名或密码不能为空！");
+      }
+      signUp({
+        name: this.loginForm.userName,
+        password: this.loginForm.password
+      }).then(res => {
+        if (res.code == 200) {
+          this.close();
+          return this.$message.success("注册成功！");
+        }
+      });
     }
   }
 };
@@ -122,6 +143,7 @@ export default {
     }
     .login_form {
       padding: 0 40px;
+
       .login_button {
         background: #3194d0;
         width: 100%;
