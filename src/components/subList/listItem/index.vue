@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  name: "listItem",
+  name: "subListItem",
   props: {
     item: {
       type: Object,
