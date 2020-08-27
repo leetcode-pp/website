@@ -14,8 +14,6 @@ const createExercise = async (ctx, next) => {
             isOfficial = 1;
         }
         let curDate = new Date();
-        let date = new Date(ctx.request.body.date);
-        let subject = await Subject.findOne({date: date});
         var exercise = {
             title: ctx.request.body.title,
             userName: user.name,
@@ -25,7 +23,7 @@ const createExercise = async (ctx, next) => {
             like_num: 0,
             isOfficial: isOfficial,
             isSelected: 0,
-            subjectId: subject._id
+            subjectId: ctx.request.body.subjectid
         };
         let oneExercise = new Exercises(exercise);
         await oneExercise.save();
@@ -39,12 +37,12 @@ const createExercise = async (ctx, next) => {
     
 }
 
-const findMyExercise = async (ctx, next) => {
+const findMyExercises = async (ctx, next) => {
     try {
         let userName = ctx.userName;
         let subjectId = parseInt(ctx.query.subjectid);
-        let myExercise = await Exercises.findOne({userName: userName, subjectId: subjectId});
-        ctx.response.body = (myExercise).toJSON();
+        let myExercises = await Exercises.find({userName: userName, subjectId: subjectId});
+        ctx.response.body = JSON.stringify(myExercises);
 
     } catch(err) {
         console.log(err);
@@ -222,5 +220,11 @@ const rank = async (ctx, next) => {
 
 }
 
-export {createExercise, findMyExercise, findOfficialExercises, findSelectedExercises, findAllExercises,
-    findAllExercisesDuringPeriod, setSelectedExercise, findChecksInMonth, rank};
+const getExerciseDetailById = async (ctx, next) => {
+    let id = ctx.query.id;
+    let exercise = await Exercises.findOne({_id: new mongoose.Types.ObjectId(id)});
+    ctx.response.body = JSON.stringify(exercise);
+}
+
+export {createExercise, findMyExercises, findOfficialExercises, findSelectedExercises, findAllExercises,
+    findAllExercisesDuringPeriod, setSelectedExercise, findChecksInMonth, rank, getExerciseDetailById};
