@@ -1,8 +1,7 @@
 <template>
   <div class="MDetails wrapper">
     <div class="container">
-      <div class="max-width-800"></div>
-      <h2 class="subtitle">{{ title }}</h2>
+      <h2 class="subtitle" v-if="title">{{ title }}</h2>
       <div class="desc text-align-left" v-html="desc"></div>
     </div>
   </div>
@@ -26,7 +25,7 @@ export default {
   props: {
     title: {
       type: String,
-      default: "题解详情",
+      default: "",
     },
     content: {
       type: String,
@@ -47,7 +46,6 @@ export default {
     handleStyle() {
       hljs.configure({ useBR: false });
       document.querySelectorAll("code").forEach((block) => {
-        console.log(block);
         hljs.highlightBlock(block);
       });
       document.querySelectorAll("img").forEach((block) => {
@@ -62,7 +60,9 @@ export default {
         });
     },
   },
-  mounted() {},
+  mounted() {
+    this.handleStyle();
+  },
   watch: {
     content() {
       setTimeout(() => {
@@ -77,25 +77,20 @@ export default {
 .wrapper {
   box-sizing: border-box;
   h2.subtitle {
-    margin-top: 50px;
     margin-bottom: 30px;
     font-size: 32px;
     font-weight: bold;
     text-align: center;
-  }
-  .max-width-800 {
-    max-width: 800px;
-    margin: 30px auto;
   }
   .text-align-left {
     text-align: left;
   }
   .container {
     max-width: 1080px;
-    margin: 30px auto;
+    margin: 0 auto;
   }
   .desc {
-    margin: 20px 10px;
+    margin: 0px 10px 20px;
   }
   .spinner-container {
     display: flex;

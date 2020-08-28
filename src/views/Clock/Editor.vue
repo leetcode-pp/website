@@ -49,7 +49,7 @@ export default {
 
     onSubmit() {
       this.loading = true;
-      console.log(this.input);
+      // console.log(this.input);
       setTimeout(() => {
         this.loading = false;
       }, 1000);

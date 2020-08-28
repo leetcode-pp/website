@@ -47,11 +47,11 @@ export default {
     },
     // 上月
     handlePrev() {
-      console.log("handlePrev");
+      // console.log("handlePrev");
     },
     // 下月
     handleNext() {
-      console.log("handleNext");
+      // console.log("handleNext");
     },
     // 点击日期
     handleClick({_id}) {

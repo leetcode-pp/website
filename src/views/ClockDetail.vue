@@ -75,12 +75,12 @@ export default {
   methods: {
     CheckDetail(item) {
       this.type = TYPE[1];
-      this.info = item
+      this.info = item;
     },
     CheckEditor() {
       this.type = TYPE[0];
-      this.info = {}
-    }
+      this.info = {};
+    },
   },
 };
 </script>
@@ -111,6 +111,11 @@ export default {
     flex: 1;
     .tabs {
       height: 100%;
+      /deep/ .el-tabs__content {
+        height: calc(100% - 56px);
+        overflow: auto;
+        position: relative;
+      }
     }
   }
   .line {
