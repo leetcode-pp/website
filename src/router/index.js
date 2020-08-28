@@ -70,12 +70,12 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  mode: "history",
+  // mode: "history",
   routes
 });
 
 router.afterEach((to, from) => {
-  document.title = to.meta.title || '91website'
+  document.title = to.meta.title || '91算法'
 })
 
 export default router
