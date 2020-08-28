@@ -1,3 +1,4 @@
+const isDev = process.env.ENV === 'development'
 module.exports = {
-  publicPath: './',
+  publicPath: isDev ? '/' : './',
 }

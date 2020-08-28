@@ -45,6 +45,7 @@ export default {
 
   .content {
     min-height: 85vh;
+    position: relative;
   }
   .el-header {
     position: relative;

@@ -5,6 +5,7 @@
 <script>
 import subList from "@/components/subList";
 import { queryAnswerList } from "@/api/exercises.js";
+
 export default {
   name: "answerListPage",
   props: {},

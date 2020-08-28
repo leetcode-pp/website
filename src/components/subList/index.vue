@@ -1,6 +1,6 @@
 <template>
   <div class="list" :style="style">
-    <div class="list_item" v-for="item in list" :key="item.id">
+    <div class="list_item" v-for="item in list" :key="item.id" @click="handleClick(item)">
       <list-item :item="item"></list-item>
     </div>
   </div>
@@ -14,20 +14,24 @@ export default {
   props: {
     list: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
   components: { listItem },
   data() {
     return {
-      style: ""
+      style: "",
     };
   },
   created() {
     this.style = `width:${this.$attrs.width || "100%"};`;
   },
   mounted() {},
-  methods: {}
+  methods: {
+    handleClick(item) {
+      this.$emit('handleClick', item)
+    },
+  },
 };
 </script>
 

@@ -25,6 +25,27 @@ const routes = [
             /* webpackChunkName: "BasicList" */ "../views/basic/BasicList.vue"
           )
       },
+      // {
+      //   path: '/basicDetail',
+      //   name: 'BasicDetail',
+      //   component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/basic/BasicDetail.vue')
+      // },
+      {
+        path: '/clock',
+        name: 'Clock',
+        meta: {
+          title: '91官网 - 打卡'
+        },
+        component: () => import(/* webpackChunkName: "Clock" */ '../views/Clock.vue')
+      },
+      {
+        path: '/clock/detail/:id',
+        name: 'ClockDetail',
+        meta: {
+          title: '91官网 - 打卡详情页面'
+        },
+        component: () => import(/* webpackChunkName: "ClockDetail" */ '../views/ClockDetail.vue')
+      },
       {
         path: '/Rankings',
         name: 'Rankings',
@@ -49,7 +70,12 @@ const routes = [
 ];
 
 const router = new VueRouter({
+  // mode: "history",
   routes
 });
 
-export default router;
+router.afterEach((to, from) => {
+  document.title = to.meta.title || '91算法'
+})
+
+export default router
