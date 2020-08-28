@@ -23,7 +23,7 @@
         class="clock-row"
         justify="space-around"
         align="middle"
-        v-for="(column,index) in ColumnList"
+        v-for="(column,index) in columns"
         :key="index"
       >
         <el-col v-for="item in column" :key="item.key" align="center">
@@ -89,7 +89,7 @@ export default {
       return `${this.showOther}` === "true";
     },
     // 日历的moment数据
-    ColumnList() {
+    columns() {
       let endMoment = moment(this.nowMoment).startOf("month");
       const columnList = this.getColumn(endMoment)
       console.log(this.list.length)
