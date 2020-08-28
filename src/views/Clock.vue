@@ -3,9 +3,9 @@
     <div class="calendar">
       <Calendar
         showOther="false"
-        @handlePrev="handlePrev"
-        @handleNext="handleNext"
-        @handleClick="handleClick"
+        @goPrev="goPrev"
+        @goNext="goNext"
+        @clock-click="goDetail"
       >
         <div slot="prev" class="clock-prev">
           <i class="el-icon-caret-left"></i>
@@ -20,7 +20,7 @@
         <span>我的补卡券： 0</span>
         <span class="RedeemButton">兑换</span>
       </div>
-      <span class="RuleText" @click="handleRule">
+      <span class="RuleText" @click="showRule">
         活动规则
         <i class="el-icon-arrow-right"></i>
       </span>
@@ -41,20 +41,20 @@ export default {
   },
   mounted() {},
   methods: {
-    // 活动规则
-    handleRule() {
+    // 显示活动规则
+    showRule() {
       alert("活动规则");
     },
     // 上月
-    handlePrev() {
-      // console.log("handlePrev");
+    goPrev() {
+      // console.log("goPrev");
     },
     // 下月
-    handleNext() {
-      // console.log("handleNext");
+    goNext() {
+      // console.log("goNext");
     },
-    // 点击日期
-    handleClick({_id}) {
+    // 点击日期跳转到详情页面
+    goDetail({_id}) {
       this.$router.push({
         path: `/clock/detail/${_id}`
       });

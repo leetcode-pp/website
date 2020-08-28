@@ -1,7 +1,7 @@
 <template>
   <div class="clock-container">
     <div class="clock-header">
-      <div class="left" @click="handlePrev">
+      <div class="left" @click="goPrev">
         <slot name="prev" v-if="$slots.prev"></slot>
         <i class="el-icon-caret-left" v-if="!$slots.prev"></i>
       </div>
@@ -9,7 +9,7 @@
         <slot name="title" v-if="$slots.title"></slot>
         <div v-if="!$slots.title">每日一题｜{{nowDate.year}} - {{nowDate.month}}</div>
       </div>
-      <div class="right" @click="handleNext">
+      <div class="right" @click="goNext">
         <slot name="next" v-if="$slots.next"></slot>
         <i class="el-icon-caret-right" v-if="!$slots.next"></i>
       </div>
@@ -42,7 +42,7 @@
               class="circle"
               :type="type[item.state]"
               :icon="icon[item.state]"
-              @click="() => handleClickMoment(item)"
+              @click="() => clickMoment(item)"
             >{{!item.value.isBefore(defaultMoment) ? item.value.get('date') : ''}}</el-button>
           </el-tooltip>
         </el-col>
@@ -178,23 +178,23 @@ export default {
       return data;
     },
     // 上月
-    handlePrev() {
+    goPrev() {
       this.nowMoment = moment(this.nowMoment).subtract(1, "month");
-      this.$emit("handlePrev");
+      this.$emit("goPrev");
     },
     // 下月
-    handleNext() {
+    goNext() {
       if (
         this.nowMoment.get("year") === this.defaultMoment.get("year") &&
         this.nowMoment.get("month") >= this.defaultMoment.get("month")
       )
         return;
       this.nowMoment = moment(this.nowMoment).add(1, "month");
-      this.$emit("handleNext");
+      this.$emit("goNext");
     },
     // 点击日期
-    handleClickMoment(item) {
-      this.$emit("handleClick", { ...item });
+    clickMoment(item) {
+      this.$emit("clock-click", { ...item });
     },
   },
 };

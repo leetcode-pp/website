@@ -1,6 +1,6 @@
 <template>
   <div class="ClockList" ref="ClockList">
-    <List :list="list" @handleClick="ClickItem"></List>
+    <List :list="list" @handleClick="clickItem"></List>
   </div>
 </template>
 
@@ -51,7 +51,7 @@ export default {
         loadingInstance.close();
       });
     },
-    ClickItem(item) {
+    clickItem(item) {
       this.$emit("ClickItem", item);
     },
   },
