@@ -1,7 +1,7 @@
 <template>
   <div class="clock-container">
     <div class="clock-header">
-      <div class="left" @click="goPrev">
+      <div class="left" @click="handlePrev">
         <slot name="prev" v-if="$slots.prev"></slot>
         <i class="el-icon-caret-left" v-if="!$slots.prev"></i>
       </div>
@@ -9,7 +9,7 @@
         <slot name="title" v-if="$slots.title"></slot>
         <div v-if="!$slots.title">每日一题｜{{nowDate.year}} - {{nowDate.month}}</div>
       </div>
-      <div class="right" @click="goNext">
+      <div class="right" @click="handleNext">
         <slot name="next" v-if="$slots.next"></slot>
         <i class="el-icon-caret-right" v-if="!$slots.next"></i>
       </div>
@@ -178,12 +178,12 @@ export default {
       return data;
     },
     // 上月
-    goPrev() {
+    handlePrev() {
       this.nowMoment = moment(this.nowMoment).subtract(1, "month");
       this.$emit("goPrev");
     },
     // 下月
-    goNext() {
+    handleNext() {
       if (
         this.nowMoment.get("year") === this.defaultMoment.get("year") &&
         this.nowMoment.get("month") >= this.defaultMoment.get("month")

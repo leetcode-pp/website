@@ -9,7 +9,7 @@
             :label="name"
             lazy
           >
-            <components :is="ComponentName" :type="value" :id="id" @ClickItem="checkDetail"></components>
+            <components :is="ComponentName" :type="value" :id="id" @clickItem="checkDetail"></components>
           </el-tab-pane>
         </el-tabs>
       </div>

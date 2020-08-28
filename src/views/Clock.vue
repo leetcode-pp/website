@@ -3,9 +3,9 @@
     <div class="calendar">
       <Calendar
         showOther="false"
-        @goPrev="goPrev"
-        @goNext="goNext"
-        @clock-click="goDetail"
+        @goPrev="handleGoPrev"
+        @goNext="handleGoNext"
+        @clock-click="handleClockClick"
       >
         <div slot="prev" class="clock-prev">
           <i class="el-icon-caret-left"></i>
@@ -46,15 +46,15 @@ export default {
       alert("活动规则");
     },
     // 上月
-    goPrev() {
+    handleGoPrev() {
       // console.log("goPrev");
     },
     // 下月
-    goNext() {
+    handleGoNext() {
       // console.log("goNext");
     },
     // 点击日期跳转到详情页面
-    goDetail({_id}) {
+    handleClockClick({_id}) {
       this.$router.push({
         path: `/clock/detail/${_id}`
       });

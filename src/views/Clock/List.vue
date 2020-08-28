@@ -52,7 +52,7 @@ export default {
       });
     },
     clickItem(item) {
-      this.$emit("ClickItem", item);
+      this.$emit("clickItem", item);
     },
   },
 };
