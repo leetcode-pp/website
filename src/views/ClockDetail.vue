@@ -9,14 +9,14 @@
             :label="name"
             lazy
           >
-            <components :is="ComponentName" :type="value" :id="id" @ClickItem="CheckDetail"></components>
+            <components :is="ComponentName" :type="value" :id="id" @ClickItem="checkDetail"></components>
           </el-tab-pane>
         </el-tabs>
       </div>
       <div class="line"></div>
       <div class="right">
         <Editor v-show="type === 'editor'" :id="id"></Editor>
-        <Detail v-show="type === 'detail'" :id="id" :info="info" @close="CheckEditor"></Detail>
+        <Detail v-show="type === 'detail'" :id="id" :info="info" @close="checkEditor"></Detail>
       </div>
     </div>
   </div>
@@ -73,11 +73,11 @@ export default {
     this.id = this.$route.params.id;
   },
   methods: {
-    CheckDetail(item) {
+    checkDetail(item) {
       this.type = TYPE[1];
       this.info = item;
     },
-    CheckEditor() {
+    checkEditor() {
       this.type = TYPE[0];
       this.info = {};
     },
