@@ -30,7 +30,7 @@ import ClockList from "./Clock/List";
 
 const TYPE = ["editor", "detail"];
 
-const LISTTYPE = [
+const LIST_TYPE = [
   {
     name: "官方题解",
     value: "1",
@@ -64,7 +64,7 @@ export default {
           value: "0",
           ComponentName: Description,
         },
-        ...LISTTYPE.map((item) => ({ ...item, ComponentName: ClockList })),
+        ...LIST_TYPE.map((item) => ({ ...item, ComponentName: ClockList })),
       ],
     };
   },
