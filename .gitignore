@@ -6,6 +6,7 @@ node_modules
 /server/.idea
 /server/src/development.config.js
 /server/src/production.config.js
+/server/src/init_db.ts
 
 # local env files
 .env.local
