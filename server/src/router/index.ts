@@ -10,7 +10,7 @@ import {createTeaching, getTeachingDetailById, getTeachingsByCategory} from '../
 
 //用户登录
 router.post('/api/v1/userSignin', signin);
-router.post('/api/v1/signup', signup);
+router.post('/api/v1/signup', verifyLogin, signup);
 router.get('/api/v1/ranks', verifyLogin, rank);
 //用户退出登录
 // router.post('/api/userSignout', userControl.userSignout)
