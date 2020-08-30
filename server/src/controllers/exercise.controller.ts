@@ -32,7 +32,7 @@ const createExercise = async (ctx, next) => {
             message: '创建成功'
         };
     } catch(err) {
-        console.log(err);
+        throw new Error('创建题解失败');
     }
     
 }
@@ -45,7 +45,7 @@ const findMyExercises = async (ctx, next) => {
         ctx.response.body = JSON.stringify(myExercises);
 
     } catch(err) {
-        console.log(err);
+        throw new Error('查找我的题解失败');
     }
 }
 
@@ -55,7 +55,7 @@ const findOfficialExercises = async (ctx, next) => {
         let officialExercises = await Exercises.find({isOfficial:true, subjectId: subjectId});
         ctx.response.body = JSON.stringify(officialExercises);
     } catch(err) {
-        console.log(err);
+        throw new Error('查找官方题解失败');
     }
 }
 
@@ -65,7 +65,7 @@ const findSelectedExercises = async (ctx, next) => {
         let selectedExercises = await Exercises.find({isSelected:true, subjectId: subjectId});
         ctx.response.body = JSON.stringify(selectedExercises);
     } catch(err) {
-        console.log(err);
+        throw new Error('查找精选题解失败');
     }
 }
 
@@ -76,7 +76,7 @@ const findAllExercises = async (ctx, next) => {
         let allExercises = await Exercises.find({subjectId: subjectId}).select('title userName likes isSelected isOfficial subjectId');
         ctx.response.body = JSON.stringify(allExercises);
     } catch(err) {
-        console.log(err);
+        throw new Error('查找所有题解失败');
     }
 }
 
@@ -115,16 +115,30 @@ const findAllExercisesDuringPeriod = async (ctx, next) => {
         ]);
         ctx.response.body = JSON.stringify(allExercises);
     } catch(err) {
-        console.log(err);
+        throw new Error('查找一定时间阶段所有题解失败');
     }
 }
 
 const setSelectedExercise = async (ctx, next) => {
-    let id = ctx.query.id;
-    let exercise = await Exercises.findByIdAndUpdate(new mongoose.Types.ObjectId(id), {"isSelected": true});
-    ctx.response.body = {
-        message: "success"
-    };
+    try {
+        let userName = ctx.userName;
+        let user: any = await User.findOne({name: userName});
+        if (user.isAdmin > 0) {
+            let id = ctx.query.id;
+            let exercise = await Exercises.findByIdAndUpdate(new mongoose.Types.ObjectId(id), {"isSelected": true});
+            ctx.response.body = {
+                message: "success"
+            };
+        } else {
+            ctx.response.status = 401;
+            ctx.response.body = {
+                message: '请联系管理员，权限不足'
+            };
+        }
+    } catch (error) {
+        throw new Error('设置精选失败');
+    }
+    
 }
 
 

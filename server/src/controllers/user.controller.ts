@@ -79,10 +79,10 @@ const signup = async (ctx, next) => {
 }
 
 const verifyLogin = async (ctx, next) => {
-    let token = ctx.request.headers['authorization']|| ctx.request.query.token || ctx.request.body.token || ctx.request.body.fields.token || ctx.request.get('authorization');
+    let token = ctx.request.headers['authorization'];
   
     const returnNotLogin = () => {
-      ctx.response.code = 401;
+      ctx.response.status = 401;
       ctx.response.body = {
         data: null,
         message: '请先登录'
@@ -93,13 +93,15 @@ const verifyLogin = async (ctx, next) => {
       let profile = await jwt.verify(token, config.tokenSecret);
       if (profile !== null) {
         ctx.userName = profile.userName;
-        await next();
+      } else {
+        returnNotLogin();
       }
     } catch (err) {
       if (err) {
         returnNotLogin();
       }
     }
+    await next();
 };
 
 function validate(loginPassword, actualPassword): boolean {
