@@ -42,4 +42,14 @@ const getTeachingsByCategory = async (ctx, next) => {
     }
 }
 
-export {createTeaching, getTeachingsByCategory};
+
+const getTeachingDetailById = async (ctx, next) => {
+    try {
+        let id = ctx.query.id;
+        let teaching = await Teachings.find({_id: new mongoose.Types.ObjectId(id)});
+        ctx.response.body = JSON.stringify(teaching);
+    } catch(err) {
+        console.log(err);
+    }
+}
+export {createTeaching, getTeachingsByCategory, getTeachingDetailById};

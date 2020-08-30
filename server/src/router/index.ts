@@ -4,7 +4,7 @@ const router = new koarouter();
 import {signin, verifyLogin, signup} from '../controllers/user.controller';
 import {createExercise, findMyExercises, findOfficialExercises, findSelectedExercises,
     findAllExercisesDuringPeriod, setSelectedExercise, findChecksInMonth, rank, findAllExercises, getExerciseDetailById} from '../controllers/exercise.controller';
-import {createTeaching} from '../controllers/teaching.controller';
+import {createTeaching, getTeachingDetailById, getTeachingsByCategory} from '../controllers/teaching.controller';
     //用户注册 - 手动添加用户
 // router.post('/api/userSignup', userControl.userSignup)
 
@@ -36,6 +36,6 @@ router.get('/api/v1/addSelected', verifyLogin, setSelectedExercise);
 router.get('/api/v1/checks/period', verifyLogin,findChecksInMonth);
 
 router.post('/api/v1/saveteaching', verifyLogin, createTeaching);
-router.post('/api/v1/teachings', verifyLogin, createTeaching);
-
+router.get('/api/v1/teachings', verifyLogin, getTeachingsByCategory);
+router.get('/api/v1/teaching/id', verifyLogin, getTeachingDetailById)
 export default router;
