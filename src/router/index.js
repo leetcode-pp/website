@@ -31,40 +31,49 @@ const routes = [
       //   component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/basic/BasicDetail.vue')
       // },
       {
-        path: '/clock',
-        name: 'Clock',
+        path: "/clock",
+        name: "Clock",
         meta: {
-          title: '91官网 - 打卡'
+          title: "91官网 - 打卡"
         },
-        component: () => import(/* webpackChunkName: "Clock" */ '../views/Clock.vue')
+        component: () =>
+          import(/* webpackChunkName: "Clock" */ "../views/Clock.vue")
       },
       {
-        path: '/clock/detail/:id',
-        name: 'ClockDetail',
+        path: "/clock/detail/:id",
+        name: "ClockDetail",
         meta: {
-          title: '91官网 - 打卡详情页面'
+          title: "91官网 - 打卡详情页面"
         },
-        component: () => import(/* webpackChunkName: "ClockDetail" */ '../views/ClockDetail.vue')
-      },
-      {
-        path: '/Rankings',
-        name: 'Rankings',
-        component: () => import(/* webpackChunkName: "Rankings" */'../views/Rankings/Rankings.vue')
-      },
-      {
-        path: '/answerList',
-        name: 'answerList',
-        component: () => import(/* webpackChunkName: "Rankings" */'../views/answerList/answerList.vue')
-      },
-      {
-        path: "/solutionDetails",
-        name: "SolutionDetails",
         component: () =>
           import(
-            /* webpackChunkName: "SolutionDetails" */ "../components/SolutionDetails.vue"
+            /* webpackChunkName: "ClockDetail" */ "../views/ClockDetail.vue"
+          )
+      },
+      {
+        path: "/Rankings",
+        name: "Rankings",
+        component: () =>
+          import(
+            /* webpackChunkName: "Rankings" */ "../views/Rankings/Rankings.vue"
+          )
+      },
+      {
+        path: "/answerList",
+        name: "answerList",
+        component: () =>
+          import(
+            /* webpackChunkName: "Rankings" */ "../views/answerList/answerList.vue"
+          )
+      },
+      {
+        path: "/teachingDetails",
+        name: "TeachingDetails",
+        component: () =>
+          import(
+            /* webpackChunkName: "TeachingDetails" */ "../components/TeachingDetails.vue"
           )
       }
-
     ]
   }
 ];
@@ -75,7 +84,7 @@ const router = new VueRouter({
 });
 
 router.afterEach((to, from) => {
-  document.title = to.meta.title || '91算法'
-})
+  document.title = to.meta.title || "91算法";
+});
 
-export default router
+export default router;

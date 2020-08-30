@@ -1,9 +1,6 @@
 <template>
   <div class="wrapper">
-    <div v-if="loading" class="spinner-container">
-      <span size="large"></span>
-    </div>
-    <div v-if="!loading" class="container">
+    <div v-loading="loading" class="container">
       <div class="max-width-800"></div>
       <h2 class="subtitle">{{ title }}</h2>
       <div class="desc text-align-left" v-html="desc"></div>
@@ -15,6 +12,9 @@ import axios from "axios";
 import { Base64 } from "js-base64";
 import MarkdownIt from "markdown-it";
 import hljs from "highlight.js";
+
+import { fetchTeachingById } from "@/api/teachings";
+
 import "highlight.js/styles/github.css";
 
 const md = new MarkdownIt();
@@ -29,20 +29,13 @@ export default {
       loading: true,
       hasError: false,
       desc: "",
+      title: "",
       prettified: false,
-      labels: []
+      labels: [],
+      id: null
     };
   },
-  props: {
-    url: {
-      type: String,
-      default: REPO
-    },
-    title: {
-      type: String,
-      default: "题解详情"
-    }
-  },
+  props: {},
   methods: {
     showError() {
       this.hasError = true;
@@ -52,11 +45,11 @@ export default {
     },
     async getSolution() {
       try {
-        const res = await axios.get(this.$route.query.url);
+        const res = await fetchTeachingById(this.$route.query.id);
         this.loading = false;
-        this.desc = md.render(
-          this.addLinkMarkdown(Base64.decode(res.data.content))
-        );
+        this.desc = md.render(this.addLinkMarkdown(Base64.decode(res.content)));
+
+        this.title = res.title;
       } catch (error) {
         this.showError();
         this.loading = false;

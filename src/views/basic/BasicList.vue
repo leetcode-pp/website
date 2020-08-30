@@ -2,11 +2,12 @@
   <div style="width: 60%;margin: auto">
     <template>
       <el-table
-        :data="solutionData"
+        v-loading="isloading"
+        :data="teachings"
         @row-click="handleClick"
         style="width: 100%"
       >
-        <el-table-column prop="title" label="讲义">
+        <el-table-column prop="title" label="">
           <template slot-scope="scope">
             <span :class="['title', { 'icon-new': scope.row.isNew }]">{{
               scope.row.title
@@ -14,58 +15,41 @@
           </template>
         </el-table-column>
       </el-table>
-      <pagination
-        v-show="total > 0"
-        :total="total"
-        :page.sync="queryParams.pageNum"
-        :limit.sync="queryParams.pageSize"
-      />
     </template>
   </div>
 </template>
 
 <script>
-import { allExercises } from "@/api/exercises";
-import solutionData from "./solutionData";
+import { fetchTeachings } from "@/api/teachings";
 
-const REPO_URL = "https://api.github.com/repos/azl397985856/leetcode/contents";
-const PAGE_NUM = 1;
-const PAGE_SIZE = 20;
-const FROM = "2020-08-01";
-const TO = "2020-09-10";
 export default {
-  name: "BasicList",
+  name: "teaching-basic",
   data() {
     return {
-      solutionData: solutionData,
-      // 查询参数
-      queryParams: {
-        pageNum: PAGE_NUM,
-        pageSize: PAGE_SIZE
-      },
-      total: 0,
-      date: {
-        from: FROM,
-        to: TO
-      }
+      isloading: true,
+      teachings: []
     };
   },
   created() {
-    this.total = this.solutionData.length;
-    this.getAllExercises();
+    this.getBasicTeachings();
   },
   methods: {
     handleClick(row) {
       this.$router.push({
-        path: "solutionDetails",
+        path: "teachingDetails",
         query: {
-          url: REPO_URL + row.url
+          id: row._id
         }
       });
     },
 
-    getAllExercises() {
-      allExercises().then(response => {});
+    async getBasicTeachings() {
+      // 0: 基础篇
+      this.isloading = true;
+      await fetchTeachings(0).then(teachings => {
+        this.teachings = teachings;
+      });
+      this.isloading = false;
     }
   }
 };

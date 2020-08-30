@@ -1,17 +1,20 @@
 <template>
   <div class="header">
     <div class="header-nav">
-      <div class="logo">
-        <img src="../assets/logo2.png" alt="" />
-      </div>
+      <a class="logo" @click="$router.push('/basic')">
+        <img
+          src="https://tva1.sinaimg.cn/large/007S8ZIlly1gi9038a4xpj30u009zab5.jpg"
+          alt="leetcode-pp-91"
+        />
+      </a>
       <div style="width: 100%">
         <el-menu
           :default-active="this.$route.path"
           router
           mode="horizontal"
           class="el-menu-demo"
-          background-color="#545c64"
-          text-color="#fff"
+          background-color="#fff"
+          text-color="#545c64"
           active-text-color="#ffd04b"
         >
           <el-menu-item
@@ -31,7 +34,7 @@
 
 <script>
 export default {
-  name: "nav",
+  name: "header-nav",
   data() {
     return {
       navList: [
@@ -51,7 +54,7 @@ export default {
 .header {
   width: 100%;
   justify-content: center;
-  background-color: #545c64;
+  background-color: #fff;
 
   .header-nav {
     margin: auto;
@@ -62,6 +65,7 @@ export default {
       display: inline-block;
       width: 160px;
       height: 60px;
+      cursor: pointer;
 
       img {
         height: 60px;
