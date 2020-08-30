@@ -73,7 +73,7 @@ const findSelectedExercises = async (ctx, next) => {
 const findAllExercises = async (ctx, next) => {
     try {
         let subjectId = parseInt(ctx.query.subjectid);
-        let allExercises = await Exercises.find({subjectId: subjectId});
+        let allExercises = await Exercises.find({subjectId: subjectId}).select('title userName likes isSelected isOfficial subjectId');
         ctx.response.body = JSON.stringify(allExercises);
     } catch(err) {
         console.log(err);
@@ -104,12 +104,10 @@ const findAllExercisesDuringPeriod = async (ctx, next) => {
                 $project: {
                     "_id": 1,
                     "title": 1,
-                    "content": 1,
                     "likes": 1,
                     "isSelected": 1,
                     "isOfficial": 1,
                     "createAt": 1,
-                    "userId": 1,
                     "userName": 1,
                     "subjectId": 1,
                 }

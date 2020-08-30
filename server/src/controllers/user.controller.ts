@@ -8,9 +8,9 @@ const signin = async (ctx, next) => {
     let password = body.password;
   
     try {
-      let user: any = await User.findOne({name: name});
+      let user: any = await User.findOne({name: name}, 'name isAdmin password');
       if (user === null) {
-        ctx.response.code = 401;
+        ctx.response.status = 401;
         ctx.response.body = {
           data: null,
           message: '账户名密码不正确'
@@ -21,7 +21,7 @@ const signin = async (ctx, next) => {
       //验证密码
       let isPassWord = await validate(password, user.password);;
       if (isPassWord === false) {
-        ctx.response.code = 401;
+        ctx.response.status = 401;
         ctx.response.body = {
           data: null,
           message: '账户名密码不正确'
@@ -37,10 +37,9 @@ const signin = async (ctx, next) => {
         expiresIn: 60 * 600   // 10小时过期
       });
       ctx.set('authorization', token);
+      const result = {name: user.name, isAdmin: user.isAdmin};
       ctx.response.body = {
-        code: 1,
-        data: user,
-        token: token,
+        data: result,
         message: '登录成功'
       };
   

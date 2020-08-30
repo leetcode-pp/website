@@ -35,7 +35,7 @@ const createTeaching = async (ctx, next) => {
 const getTeachingsByCategory = async (ctx, next) => {
     try {
         let category = parseInt(ctx.query.category);
-        let teachings = await Teachings.find({category: category});
+        let teachings = await Teachings.find({category: category}).select('_id title category');
         ctx.response.body = JSON.stringify(teachings);
     } catch(err) {
         console.log(err);
