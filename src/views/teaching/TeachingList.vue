@@ -50,9 +50,13 @@ export default {
       const path = this.$route.path;
       if (path !== "/basic") return;
       this.isloading = true;
-      await fetchTeachings(0).then(teachings => {
-        this.teachings = teachings;
-      });
+      await fetchTeachings(0)
+        .then(teachings => {
+          this.teachings = teachings;
+        })
+        .catch(error => {
+          this.isloading = false;
+        });
       this.isloading = false;
     }
   }

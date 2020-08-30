@@ -35,6 +35,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   res => {
     // 未设置状态码则默认成功状态
+
     const code = res.data.code || 200;
     // 获取错误信息
     const message = errorCode[code] || res.data.msg || errorCode["default"];
@@ -71,9 +72,9 @@ service.interceptors.response.use(
     // return res.data
   },
   error => {
-    console.log("err" + error);
+    console.log("err:" + error);
     Message({
-      message: error.message,
+      message: error instanceof Object ? error.message : error,
       type: "error",
       duration: 5 * 1000
     });
