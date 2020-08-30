@@ -1,7 +1,9 @@
 <template>
   <div style="width: 60%;margin: auto">
     <template>
+      <div v-if="$route.path != '/basic'">敬请期待~</div>
       <el-table
+        v-else
         v-loading="isloading"
         :data="teachings"
         @row-click="handleClick"
@@ -23,7 +25,7 @@
 import { fetchTeachings } from "@/api/teachings";
 
 export default {
-  name: "teaching-basic",
+  name: "teaching-list",
   data() {
     return {
       isloading: true,
@@ -45,6 +47,8 @@ export default {
 
     async getBasicTeachings() {
       // 0: 基础篇
+      const path = this.$route.path;
+      if (path !== "/basic") return;
       this.isloading = true;
       await fetchTeachings(0).then(teachings => {
         this.teachings = teachings;

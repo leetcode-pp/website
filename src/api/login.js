@@ -1,19 +1,18 @@
-import request from '@/utils/request'
+import request from ".//request";
 
 // 登录方法
-export function login (data) {
+export function login(data) {
   return request({
-    url: '/api/v1/userSignin',
-    method: 'post',
+    url: "/api/v1/userSignin",
+    method: "post",
     data: data
-  })
+  });
 }
 // 注册
-export function signUp (data) {
+export function signUp(data) {
   return request({
-    url: '/api/v1/signup',
-    method: 'post',
+    url: "/api/v1/signup",
+    method: "post",
     data: data
-  })
+  });
 }
-

@@ -19,17 +19,37 @@ const routes = [
       },
       {
         path: "/basic",
-        name: "Basic",
+        name: "Teaching",
         component: () =>
           import(
-            /* webpackChunkName: "BasicList" */ "../views/basic/BasicList.vue"
+            /* webpackChunkName: "BasicList" */ "../views/teaching/TeachingList.vue"
           )
       },
-      // {
-      //   path: '/basicDetail',
-      //   name: 'BasicDetail',
-      //   component: () => import(/* webpackChunkName: "BasicDetail" */ '../views/basic/BasicDetail.vue')
-      // },
+      {
+        path: "/advance",
+        name: "Teaching",
+        component: () =>
+          import(
+            /* webpackChunkName: "BasicList" */ "../views/teaching/TeachingList.vue"
+          )
+      },
+      {
+        path: "/topic",
+        name: "Teaching",
+        component: () =>
+          import(
+            /* webpackChunkName: "BasicList" */ "../views/teaching/TeachingList.vue"
+          )
+      },
+      {
+        path: "/teachingDetails",
+        name: "TeachingDetails",
+        component: () =>
+          import(
+            /* webpackChunkName: "TeachingDetails" */ "../views/teaching/TeachingDetails.vue"
+          )
+      },
+
       {
         path: "/clock",
         name: "Clock",
@@ -64,14 +84,6 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "Rankings" */ "../views/answerList/answerList.vue"
-          )
-      },
-      {
-        path: "/teachingDetails",
-        name: "TeachingDetails",
-        component: () =>
-          import(
-            /* webpackChunkName: "TeachingDetails" */ "../components/TeachingDetails.vue"
           )
       }
     ]

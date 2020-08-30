@@ -56,16 +56,6 @@ export default {
     right: 40px;
     top: 50%;
     transform: translateY(-50%);
-    .el-button {
-      color: #fff;
-      height: 30px;
-      line-height: 30px;
-      padding: 0 10px;
-      border: 1px solid #ffd04b;
-      &:hover {
-        color: #ffd04b;
-      }
-    }
   }
 }
 </style>
