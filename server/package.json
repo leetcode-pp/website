@@ -1,0 +1,44 @@
+{
+  "name": "website",
+  "scripts": {
+    "eslint": "./node_modules/.bin/eslint ./src/ --ext .ts",
+    "start": "tsc --build && node ./dist/app.js",
+    "watch": "tsc --watch",
+    "build": "tsc --build",
+    "build:prod": "npm run build && rimraf  ./dist/public && mkdir .\\dist\\public && copy ..\\public .\\dist\\public",
+    "build:prod2": "rimraf  ./dist/ && npm run build && mkdir .\\dist\\logs && copy logs .\\dist\\logs",
+    "start:prod": "cross-env NODE_ENV=production pm2 start pm2.json"
+  },
+  "author": "pqi",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "bcrypt": "^5.0.0",
+    "cross-env": "^7.0.2",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.11.0",
+    "koa-body": "^4.2.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-morgan": "^1.0.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "koa2-cors": "^2.0.6",
+    "mongoose": "^5.7.10",
+    "node-uuid": "^1.4.8"
+  },
+  "devDependencies": {
+    "@types/koa": "^2.11.0",
+    "@types/koa-morgan": "^1.0.4",
+    "@types/koa-router": "^7.0.42",
+    "@types/koa2-cors": "^2.0.1",
+    "@types/mongoose": "^5.5.30",
+    "@types/node": "^12.12.22",
+    "@typescript-eslint/eslint-plugin": "^2.7.0",
+    "@typescript-eslint/parser": "^2.7.0",
+    "apidoc": "^0.17.7",
+    "eslint": "^6.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.6"
+  }
+}
