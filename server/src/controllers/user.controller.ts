@@ -10,10 +10,10 @@ const signin = async (ctx, next) => {
     try {
       let user: any = await User.findOne({name: name});
       if (user === null) {
+        ctx.response.code = 401;
         ctx.response.body = {
-          code: 0,
           data: null,
-          message: '不存在该账号'
+          message: '账户名密码不正确'
         };
         return;
       }
@@ -21,10 +21,10 @@ const signin = async (ctx, next) => {
       //验证密码
       let isPassWord = await validate(password, user.password);;
       if (isPassWord === false) {
+        ctx.response.code = 401;
         ctx.response.body = {
-          code: 0,
           data: null,
-          message: '您输入的密码不正确'
+          message: '账户名密码不正确'
         };
         return;
       }
@@ -83,8 +83,8 @@ const verifyLogin = async (ctx, next) => {
     let token = ctx.request.headers['authorization']|| ctx.request.query.token || ctx.request.body.token || ctx.request.body.fields.token || ctx.request.get('authorization');
   
     const returnNotLogin = () => {
+      ctx.response.code = 401;
       ctx.response.body = {
-        code: 2,
         data: null,
         message: '请先登录'
       };

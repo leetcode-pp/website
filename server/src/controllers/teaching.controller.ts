@@ -46,7 +46,7 @@ const getTeachingsByCategory = async (ctx, next) => {
 const getTeachingDetailById = async (ctx, next) => {
     try {
         let id = ctx.query.id;
-        let teaching = await Teachings.find({_id: new mongoose.Types.ObjectId(id)});
+        let teaching = await Teachings.findOne({_id: new mongoose.Types.ObjectId(id)});
         ctx.response.body = JSON.stringify(teaching);
     } catch(err) {
         console.log(err);
