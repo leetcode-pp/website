@@ -7,8 +7,9 @@ export default async (ctx: Koa.Context, next: () => Promise<any>) => {
         await next()
     } catch (e) {
         // Unknown Exception
-        ctx.response.status = 500;
+        ctx.response.status = 200;
         ctx.response.body = {
+            code: 500,
             data: null,
             message: e.message || 'Unknown Internal Server Error'
         }

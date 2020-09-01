@@ -10,8 +10,9 @@ const signin = async (ctx, next) => {
     try {
       let user: any = await User.findOne({name: name}, 'name isAdmin password');
       if (user === null) {
-        ctx.response.status = 401;
+        ctx.response.status = 200;
         ctx.response.body = {
+          code: 401,
           data: null,
           message: '账户名密码不正确'
         };
@@ -21,8 +22,9 @@ const signin = async (ctx, next) => {
       //验证密码
       let isPassWord = await validate(password, user.password);;
       if (isPassWord === false) {
-        ctx.response.status = 401;
+        ctx.response.status = 200;
         ctx.response.body = {
+          code: 401,
           data: null,
           message: '账户名密码不正确'
         };
@@ -39,6 +41,7 @@ const signin = async (ctx, next) => {
       ctx.set('authorization', token);
       const result = {name: user.name, isAdmin: user.isAdmin};
       ctx.response.body = {
+        code: 200,
         data: result,
         message: '登录成功'
       };
@@ -57,8 +60,9 @@ const signup = async (ctx, next) => {
   if (user.isAdmin > 0) {
     let user = await User.findOne({name: name});
       if (user != null || name == undefined) {
-        ctx.response.status = 400;
+        ctx.response.status = 200;
         ctx.response.body = {
+          code: 400,
           message: `你所输入的名字已存在，请更改用户名`
         }
       }
@@ -66,13 +70,15 @@ const signup = async (ctx, next) => {
         const newUser = new User({name: name, password: password});
         await newUser.save();
         ctx.response.body = {
+          code: 200,
           message: '注册成功'
         }
       }
   }
   else {
-    ctx.response.status = 401;
+    ctx.response.status = 200;
     ctx.response.body = {
+      code: 401,
       message: '权限不足，请联系管理员'
     };
   }
@@ -82,8 +88,9 @@ const verifyLogin = async (ctx, next) => {
     let token = ctx.request.headers['authorization'];
   
     const returnNotLogin = () => {
-      ctx.response.status = 401;
+      ctx.response.status = 200;
       ctx.response.body = {
+        code: 401,
         data: null,
         message: '请先登录'
       };
