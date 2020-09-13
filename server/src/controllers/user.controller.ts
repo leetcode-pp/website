@@ -86,7 +86,7 @@ const signup = async (ctx, next) => {
 
 const verifyLogin = async (ctx, next) => {
     let token = ctx.request.headers['authorization'];
-  
+
     const returnNotLogin = () => {
       ctx.response.status = 200;
       ctx.response.body = {
@@ -101,11 +101,11 @@ const verifyLogin = async (ctx, next) => {
       if (profile !== null) {
         ctx.userName = profile.userName;
       } else {
-        returnNotLogin();
+        return returnNotLogin();
       }
     } catch (err) {
       if (err) {
-        returnNotLogin();
+        return returnNotLogin();
       }
     }
     await next();
