@@ -4,6 +4,7 @@ import Subject from '../schemas/subject';
 import {dateFormat} from '../utils/date';
 import { Mongoose, Schema } from 'mongoose';
 import mongoose from '../db';
+import json from '../utils/json';
 
 const createTeaching = async (ctx, next) => {
     try {
@@ -23,11 +24,10 @@ const createTeaching = async (ctx, next) => {
         let oneTeaching = new Teachings(teaching);
         await oneTeaching.save();
         ctx.response.body = {
-            code: 1,
             message: '创建成功'
         };
     } catch(err) {
-        console.log(err);
+        throw new Error('保存讲义失败');
     }
     
 }
@@ -35,11 +35,22 @@ const createTeaching = async (ctx, next) => {
 const getTeachingsByCategory = async (ctx, next) => {
     try {
         let category = parseInt(ctx.query.category);
-        let teachings = await Teachings.find({category: category});
-        ctx.response.body = JSON.stringify(teachings);
+        let teachings = await Teachings.find({category: category}).select('_id title category');
+        json(ctx, teachings);
     } catch(err) {
-        console.log(err);
+        throw new Error('获取讲义列表失败');
     }
 }
 
-export {createTeaching, getTeachingsByCategory};
+
+const getTeachingDetailById = async (ctx, next) => {
+    try {
+        let id = ctx.query.id;
+        let teaching = await Teachings.findOne({_id: new mongoose.Types.ObjectId(id)});
+        json(ctx, teaching);
+        //ctx.response.body = JSON.stringify(teaching);
+    } catch(err) {
+        throw new Error('获取讲义详情失败');
+    }
+}
+export {createTeaching, getTeachingsByCategory, getTeachingDetailById};

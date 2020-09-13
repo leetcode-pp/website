@@ -8,12 +8,13 @@ const signin = async (ctx, next) => {
     let password = body.password;
   
     try {
-      let user: any = await User.findOne({name: name});
+      let user: any = await User.findOne({name: name}, 'name isAdmin password');
       if (user === null) {
+        ctx.response.status = 200;
         ctx.response.body = {
-          code: 0,
+          code: 401,
           data: null,
-          message: '不存在该账号'
+          message: '账户名密码不正确'
         };
         return;
       }
@@ -21,10 +22,11 @@ const signin = async (ctx, next) => {
       //验证密码
       let isPassWord = await validate(password, user.password);;
       if (isPassWord === false) {
+        ctx.response.status = 200;
         ctx.response.body = {
-          code: 0,
+          code: 401,
           data: null,
-          message: '您输入的密码不正确'
+          message: '账户名密码不正确'
         };
         return;
       }
@@ -36,11 +38,11 @@ const signin = async (ctx, next) => {
       }, config.tokenSecret, {
         expiresIn: 60 * 600   // 10小时过期
       });
-      ctx.set('authorization', token);
+      ctx.set('Authorization', token);
+      const result = {name: user.name, isAdmin: user.isAdmin};
       ctx.response.body = {
-        code: 1,
-        data: user,
-        token: token,
+        code: 200,
+        data: result,
         message: '登录成功'
       };
   
@@ -58,8 +60,9 @@ const signup = async (ctx, next) => {
   if (user.isAdmin > 0) {
     let user = await User.findOne({name: name});
       if (user != null || name == undefined) {
-        ctx.response.status = 400;
+        ctx.response.status = 200;
         ctx.response.body = {
+          code: 400,
           message: `你所输入的名字已存在，请更改用户名`
         }
       }
@@ -67,24 +70,27 @@ const signup = async (ctx, next) => {
         const newUser = new User({name: name, password: password});
         await newUser.save();
         ctx.response.body = {
+          code: 200,
           message: '注册成功'
         }
       }
   }
   else {
-    ctx.response.status = 401;
+    ctx.response.status = 200;
     ctx.response.body = {
+      code: 401,
       message: '权限不足，请联系管理员'
     };
   }
 }
 
 const verifyLogin = async (ctx, next) => {
-    let token = ctx.request.headers['authorization']|| ctx.request.query.token || ctx.request.body.token || ctx.request.body.fields.token || ctx.request.get('authorization');
-  
+    let token = ctx.request.headers['authorization'];
+
     const returnNotLogin = () => {
+      ctx.response.status = 200;
       ctx.response.body = {
-        code: 2,
+        code: 401,
         data: null,
         message: '请先登录'
       };
@@ -94,13 +100,15 @@ const verifyLogin = async (ctx, next) => {
       let profile = await jwt.verify(token, config.tokenSecret);
       if (profile !== null) {
         ctx.userName = profile.userName;
-        await next();
+      } else {
+        return returnNotLogin();
       }
     } catch (err) {
       if (err) {
-        returnNotLogin();
+        return returnNotLogin();
       }
     }
+    await next();
 };
 
 function validate(loginPassword, actualPassword): boolean {

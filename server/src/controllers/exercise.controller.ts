@@ -4,6 +4,7 @@ import Subject from '../schemas/subject';
 import {dateFormat} from '../utils/date';
 import { Mongoose, Schema } from 'mongoose';
 import mongoose from '../db';
+import json from '../utils/json';
 
 const createExercise = async (ctx, next) => {
     try {
@@ -28,11 +29,11 @@ const createExercise = async (ctx, next) => {
         let oneExercise = new Exercises(exercise);
         await oneExercise.save();
         ctx.response.body = {
-            code: 1,
+            code: 200,
             message: '创建成功'
         };
     } catch(err) {
-        console.log(err);
+        throw new Error('创建题解失败');
     }
     
 }
@@ -42,10 +43,10 @@ const findMyExercises = async (ctx, next) => {
         let userName = ctx.userName;
         let subjectId = parseInt(ctx.query.subjectid);
         let myExercises = await Exercises.find({userName: userName, subjectId: subjectId});
-        ctx.response.body = JSON.stringify(myExercises);
+        json(ctx, myExercises);
 
     } catch(err) {
-        console.log(err);
+        throw new Error('查找我的题解失败');
     }
 }
 
@@ -53,9 +54,9 @@ const findOfficialExercises = async (ctx, next) => {
     try {
         let subjectId = parseInt(ctx.query.subjectid);
         let officialExercises = await Exercises.find({isOfficial:true, subjectId: subjectId});
-        ctx.response.body = JSON.stringify(officialExercises);
+        json(ctx, officialExercises);
     } catch(err) {
-        console.log(err);
+        throw new Error('查找官方题解失败');
     }
 }
 
@@ -63,9 +64,9 @@ const findSelectedExercises = async (ctx, next) => {
     try {
         let subjectId = parseInt(ctx.query.subjectid);
         let selectedExercises = await Exercises.find({isSelected:true, subjectId: subjectId});
-        ctx.response.body = JSON.stringify(selectedExercises);
+        json(ctx, selectedExercises);
     } catch(err) {
-        console.log(err);
+        throw new Error('查找精选题解失败');
     }
 }
 
@@ -73,10 +74,10 @@ const findSelectedExercises = async (ctx, next) => {
 const findAllExercises = async (ctx, next) => {
     try {
         let subjectId = parseInt(ctx.query.subjectid);
-        let allExercises = await Exercises.find({subjectId: subjectId});
-        ctx.response.body = JSON.stringify(allExercises);
+        let allExercises = await Exercises.find({subjectId: subjectId}).select('title userName likes isSelected isOfficial subjectId');
+        json(ctx, allExercises);
     } catch(err) {
-        console.log(err);
+        throw new Error('查找所有题解失败');
     }
 }
 
@@ -104,29 +105,43 @@ const findAllExercisesDuringPeriod = async (ctx, next) => {
                 $project: {
                     "_id": 1,
                     "title": 1,
-                    "content": 1,
                     "likes": 1,
                     "isSelected": 1,
                     "isOfficial": 1,
                     "createAt": 1,
-                    "userId": 1,
                     "userName": 1,
                     "subjectId": 1,
                 }
             }
         ]);
-        ctx.response.body = JSON.stringify(allExercises);
+        json(ctx, allExercises);
     } catch(err) {
-        console.log(err);
+        throw new Error('查找一定时间阶段所有题解失败');
     }
 }
 
 const setSelectedExercise = async (ctx, next) => {
-    let id = ctx.query.id;
-    let exercise = await Exercises.findByIdAndUpdate(new mongoose.Types.ObjectId(id), {"isSelected": true});
-    ctx.response.body = {
-        message: "success"
-    };
+    try {
+        let userName = ctx.userName;
+        let user: any = await User.findOne({name: userName});
+        if (user.isAdmin > 0) {
+            let id = ctx.query.id;
+            let exercise = await Exercises.findByIdAndUpdate(new mongoose.Types.ObjectId(id), {"isSelected": true});
+            ctx.response.body = {
+                message: "success"
+            };
+        } else {
+            ctx.response.status = 200;
+            ctx.response.body = {
+                code: 401,
+                message: '请联系管理员，权限不足',
+                data: null
+            };
+        }
+    } catch (error) {
+        throw new Error('设置精选失败');
+    }
+    
 }
 
 
@@ -166,7 +181,7 @@ const findChecksInMonth = async (ctx, next) => {
         }
         results.push({date: elm.date, check: flag});
     });
-    ctx.response.body = results;
+    json(ctx, results);
 }
 
 const rank = async (ctx, next) => {
@@ -216,14 +231,14 @@ const rank = async (ctx, next) => {
       }
     ]);
 
-    ctx.response.body = JSON.stringify(results);
+    json(ctx, results);
 
 }
 
 const getExerciseDetailById = async (ctx, next) => {
     let id = ctx.query.id;
     let exercise = await Exercises.findOne({_id: new mongoose.Types.ObjectId(id)});
-    ctx.response.body = JSON.stringify(exercise);
+    json(ctx, exercise);
 }
 
 export {createExercise, findMyExercises, findOfficialExercises, findSelectedExercises, findAllExercises,

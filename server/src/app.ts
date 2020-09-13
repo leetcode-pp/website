@@ -19,7 +19,7 @@ app.use(koaMorgan('combined', {
 }))
 
 // Cors
-app.use(koaCors());
+app.use(koaCors({exposeHeaders: ['Authorization', 'authorization']}));
 
 app.use(koaBody({multipart: true}))
 
