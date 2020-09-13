@@ -38,7 +38,7 @@ const signin = async (ctx, next) => {
       }, config.tokenSecret, {
         expiresIn: 60 * 600   // 10小时过期
       });
-      ctx.set('authorization', token);
+      ctx.set('Authorization', token);
       const result = {name: user.name, isAdmin: user.isAdmin};
       ctx.response.body = {
         code: 200,
