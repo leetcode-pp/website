@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["BasicDetail"],{1775:function(e,n,t){"use strict";t.r(n);var a=function(){var e=this,n=e.$createElement,t=e._self._c||n;return t("div",[e._v(" 题解详情 ")])},i=[],c={name:"Detail"},l=c,s=t("2877"),r=Object(s["a"])(l,a,i,!1,null,"61d9da9d",null);n["default"]=r.exports}}]);
-//# sourceMappingURL=BasicDetail.aed03fda.js.map
