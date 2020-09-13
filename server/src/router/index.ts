@@ -36,6 +36,6 @@ router.get('/api/v1/addSelected', verifyLogin, setSelectedExercise);
 router.get('/api/v1/checks/period', verifyLogin,findChecksInMonth);
 
 router.post('/api/v1/saveteaching', verifyLogin, createTeaching);
-router.get('/api/v1/teachings', verifyLogin, getTeachingsByCategory);
+router.get('/api/v1/teachings', getTeachingsByCategory);
 router.get('/api/v1/teaching', verifyLogin, getTeachingDetailById)
 export default router;
