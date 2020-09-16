@@ -115,4 +115,13 @@ function validate(loginPassword, actualPassword): boolean {
     return loginPassword === actualPassword;
 }
 
-export {signin, verifyLogin, signup};
+const getUserInfo = async (ctx, next) => {
+    let name = ctx.query.name;
+    let user = await User.findOne({name: name}).select('name isAdmin');
+    ctx.response.body = {
+      code: 200,
+      data: user,
+      message: 'ok'
+    };
+}
+export {signin, verifyLogin, signup, getUserInfo};

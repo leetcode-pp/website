@@ -163,24 +163,38 @@ const findChecksInMonth = async (ctx, next) => {
             }
         },
         {
+            $unwind: {
+                path: "$exercise",
+                preserveNullAndEmptyArrays: true    
+            }
+        },
+        {
+            $project: {
+                "exercise.title": 0,
+                "exercise.content": 0
+            }
+        },
+        {
             $match: {
                 date: { $gte: from, $lte: to },
                 $or: [
                     {"exercise.userName": userName},
-                    {"exercise": []}
+                    {"exercise": null}
                 ]
             }
-        }
+        },
     ]);
+    let set = new Set();
     checks.forEach(elm => {
         let flag = 0;
-        if (elm.exercise.length > 0) {
-            const checkTime = dateFormat(elm.exercise[0].createAt, 'yyyy-MM-dd');
-            const subjectTime = dateFormat(elm.date, 'yyyy-MM-dd');
+        let subjectTime = dateFormat(elm.date, 'yyyy-MM-dd');
+        if (elm.exercise != null) {
+            const checkTime = dateFormat(elm.exercise.createAt, 'yyyy-MM-dd');
             if (checkTime == subjectTime) flag = 1;
         }
-        results.push({date: elm.date, check: flag});
+        set.add({date: subjectTime, check: flag, subjectTitle: elm.title, subjectId: elm._id});
     });
+    results = Array.from(set);
     json(ctx, results);
 }
 
