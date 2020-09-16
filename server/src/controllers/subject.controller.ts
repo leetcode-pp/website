@@ -7,7 +7,7 @@ import json from '../utils/json';
 
 
 const getSubjectList = async(ctx, next) => {
-    let subjects= Subject.find().select('_id title content date');
+    let subjects= await Subject.find().select('_id title content date');
     ctx.response.body = {
         code: 200,
         data: subjects,
